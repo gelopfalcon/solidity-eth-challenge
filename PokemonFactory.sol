@@ -50,6 +50,7 @@ contract PokemonFactory {
             uint[] memory _weaknesses
         ) public {
             require(_id > 0, "El id debe ser mayor a 0!");
+            require(pokemonToOwner[_id] == address(0), "Ese id ya esta utilizado");
             require(bytes(_name).length >= 2, "El nombre debe ser mayor a 2 caracteres!");
             require(_skillNames.length == _skillDescriptions.length, "Se deben tener la misma cantidad de nombres y descripciones de habilidades");
             require(_types.length > 0, "Debes tener al menos un tipo");
@@ -96,7 +97,7 @@ contract PokemonFactory {
     }
 
     function getType(uint _id) public view returns (string memory) {
-        require(_id <= amountOfTypes, "Debes mandar un id valido");
+                require(_id <= amountOfTypes, "Debes mandar un id valido");
         return pokemonTypes[_id];
     }
 
