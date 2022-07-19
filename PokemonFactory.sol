@@ -17,6 +17,7 @@ contract PokemonFactory {
     struct Pokemon {
         uint id;
         string name;
+        string imageUri;
         Ability[] abilities;
         Type[] types;
         Type[] weaknesses;
@@ -30,7 +31,7 @@ contract PokemonFactory {
     mapping (uint => string) public pokemonTypes;
     uint public amountOfTypes; 
 
-    event NewPokemon(uint id, string name, Ability[] abilities, Type[] types, Type[] weaknesses);
+    event NewPokemon(uint id, string name, string imageUri, Ability[] abilities, Type[] types, Type[] weaknesses);
 
     constructor(string[] memory _types) {
         pokemons.push();
@@ -44,6 +45,7 @@ contract PokemonFactory {
      function createPokemon (
             uint _id, 
             string memory _name, 
+            string memory _imageUri,
             string[] memory _skillNames, 
             string[] memory _skillDescriptions, 
             uint[] memory _types, 
@@ -58,8 +60,9 @@ contract PokemonFactory {
 
             pokemons.push();
             uint256 newIndex = pokemons.length - 1;
-            pokemons[newIndex].name = _name;
             pokemons[newIndex].id = _id;
+            pokemons[newIndex].name = _name;
+            pokemons[newIndex].imageUri = _imageUri;
 
             for(uint i = 0; i < _skillNames.length; i++){
                 pokemons[newIndex].abilities.push(
@@ -93,7 +96,7 @@ contract PokemonFactory {
             pokemonToOwner[_id] = msg.sender;
             ownerPokemonCount[msg.sender]++;
 
-            emit NewPokemon(_id, _name, pokemons[newIndex].abilities, pokemons[newIndex].types, pokemons[newIndex].weaknesses);
+            emit NewPokemon(_id, _name, _imageUri, pokemons[newIndex].abilities, pokemons[newIndex].types, pokemons[newIndex].weaknesses);
     }
 
     function getType(uint _id) public view returns (string memory) {
