@@ -3,6 +3,11 @@
 pragma solidity >=0.7.0 <0.9.0;
 
 contract PokemonFactory {
+  // Challenge 1
+  event NewPokemon(
+      uint idNewPokemon,
+      string nameNewPokemon
+  );
 
   struct Pokemon {
     uint id;
@@ -18,6 +23,7 @@ contract PokemonFactory {
         pokemons.push(Pokemon(_id, _name));
         pokemonToOwner[_id] = msg.sender;
         ownerPokemonCount[msg.sender]++;
+        emit NewPokemon(_id, _name);
     }
 
     function getAllPokemons() public view returns (Pokemon[] memory) {
