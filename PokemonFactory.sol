@@ -16,7 +16,10 @@ contract PokemonFactory {
 
     event eventNewPokemon(string _name, uint _id);
 
-     function createPokemon (string memory _name, uint _id) public {
+    
+     function createPokemon (string memory _name, uint _id) public{
+        require(_id>0, 'The pokemon id must be greater than 0');
+        require(bytes(_name).length>1, 'The name must be not empty and have 2 or more characters');
         pokemons.push(Pokemon(_id, _name));
         emit eventNewPokemon(_name, _id);
         pokemonToOwner[_id] = msg.sender;
