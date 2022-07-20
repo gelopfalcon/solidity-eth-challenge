@@ -19,7 +19,11 @@ contract PokemonFactory {
     mapping (uint => address) public pokemonToOwner;
     mapping (address => uint) ownerPokemonCount;
 
-     function createPokemon (string memory _name, uint _id) public {
+
+    function createPokemon (string memory _name, uint _id) public {
+        // Challenge 2
+        require(_id > 0 ,"The id of your new pokemon must be greater than 0");
+        require(validatePokemonName(_name), "The name of your pokemon cannot be empty and must be greater than two characters");
         pokemons.push(Pokemon(_id, _name));
         pokemonToOwner[_id] = msg.sender;
         ownerPokemonCount[msg.sender]++;
@@ -37,5 +41,11 @@ contract PokemonFactory {
       product = a * b;
       sum = a + b; 
    }
+
+    // Challenge 2
+   function validatePokemonName(string memory _name) public pure returns (bool){
+        bytes memory name = bytes(_name);
+        return name.length > 2 ? true : false;
+    }
 
 }
