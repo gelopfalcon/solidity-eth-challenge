@@ -17,7 +17,7 @@ contract PokemonFactory {
     // evento que se va a disparar
     event eventNewPokemon(Pokemon pokemon);
 
-    function createPokemon (string memory _name, uint _id) public isGreatZero(_id) pokemonNameRule(_name) {
+    function createPokemon (string memory _name, uint _id) public isGreaterZero(_id) pokemonNameRule(_name) {
         Pokemon memory _newPokemon = Pokemon(
             _id,
             _name
@@ -28,7 +28,7 @@ contract PokemonFactory {
         emit eventNewPokemon (_newPokemon);
     }
 
-    modifier isGreatZero(uint _number)
+    modifier isGreaterZero(uint _number)
     {
         require(_number > 0, "Require id greater 0");
         _;
