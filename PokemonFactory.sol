@@ -7,6 +7,22 @@ contract PokemonFactory {
   struct Pokemon {
     uint id;
     string name;
+    Ability [] abilities;
+    Type [] isType;
+    Type [] weakness;
+  }
+
+  struct Ability {
+      string name;
+      string description;
+  }
+
+  enum Type{
+      Grass,
+      Poison,
+      Fire,
+      Flying,
+      Psychic
   }
 
     Pokemon[] private pokemons;
@@ -14,8 +30,30 @@ contract PokemonFactory {
     mapping (uint => address) public pokemonToOwner;
     mapping (address => uint) ownerPokemonCount;
 
-     function createPokemon (string memory _name, uint _id) public {
-        pokemons.push(Pokemon(_id, _name));
+    event eventNewPokemon(Pokemon _pokemon);
+
+    
+     function createPokemon (string memory _name, uint _id, string[] memory _abilitiesNames, string[] memory _abilitiesDesc, Type[] memory _isType, Type[] memory _weakness) public{
+        require(_id>0, 'The pokemon id must be greater than 0');
+        require(bytes(_name).length>1, 'The name must be not empty and have 2 or more characters');
+
+        
+        pokemons.push();
+        uint index=pokemons.length-1;
+        pokemons[index].name=_name;
+        pokemons[index].id=_id;
+
+        addAbilities(index, _abilitiesNames, _abilitiesDesc);
+       
+        for(uint i=0; i < _isType.length; i++) {
+            pokemons[index].isType.push(_isType[i]);
+        }
+
+         for(uint i=0; i < _weakness.length; i++) {
+            pokemons[index].weakness.push(_weakness[i]);
+        }
+        
+        emit eventNewPokemon(pokemons[index]);
         pokemonToOwner[_id] = msg.sender;
         ownerPokemonCount[msg.sender]++;
     }
@@ -24,6 +62,14 @@ contract PokemonFactory {
       return pokemons;
     }
 
+    function addAbilities(uint _index, string[] memory _abilitiesNames, string[] memory _abilitiesDesc) private {
+         for(uint i=0; i < _abilitiesNames.length; i++) {
+            pokemons[_index].abilities.push(
+                Ability(_abilitiesNames[i], _abilitiesDesc[i])
+            );
+        }
+
+    } 
 
     function getResult() public pure returns(uint product, uint sum){
       uint a = 1; 
