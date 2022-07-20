@@ -37,23 +37,20 @@ contract PokemonFactory {
         require(_id>0, 'The pokemon id must be greater than 0');
         require(bytes(_name).length>1, 'The name must be not empty and have 2 or more characters');
 
-        uint index=pokemons.length;
+        
         pokemons.push();
+        uint index=pokemons.length-1;
         pokemons[index].name=_name;
         pokemons[index].id=_id;
 
-        for(uint i=0; i < _abilitiesNames.length; i++) {
-            pokemons[index].abilities.push(
-                Ability(_abilitiesNames[i], _abilitiesDesc[i])
-            );
-        }
-
+        addAbilities(index, _abilitiesNames, _abilitiesDesc);
+       
         for(uint i=0; i < _isType.length; i++) {
             pokemons[index].isType.push(_isType[i]);
         }
 
          for(uint i=0; i < _weakness.length; i++) {
-            pokemons[index].isType.push(_weakness[i]);
+            pokemons[index].weakness.push(_weakness[i]);
         }
         
         emit eventNewPokemon(pokemons[index]);
@@ -65,6 +62,14 @@ contract PokemonFactory {
       return pokemons;
     }
 
+    function addAbilities(uint _index, string[] memory _abilitiesNames, string[] memory _abilitiesDesc) private {
+         for(uint i=0; i < _abilitiesNames.length; i++) {
+            pokemons[_index].abilities.push(
+                Ability(_abilitiesNames[i], _abilitiesDesc[i])
+            );
+        }
+
+    } 
 
     function getResult() public pure returns(uint product, uint sum){
       uint a = 1; 
