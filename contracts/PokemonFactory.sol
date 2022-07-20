@@ -25,20 +25,21 @@ contract PokemonFactory {
 
   function createPokemon(string memory _name, string[] memory _abilityName, string[] memory _abilityDscription, string[] memory _type) public {
     require(bytes(_name).length > 2, "The name must have at least 2 characters.");
-    require((_abilityName).length == (_abilityDscription).length, "You have to provide the same number of abilitie and description.");
-
-    uint _id = pokemons.length;
-    require(bytes((_abilityName)[_id]).length > 3, "The name must have at least 3 characters.");
-    require(bytes((_abilityDscription)[_id]).length > 5, "The description must have at least 5 characters.");
-    
-    pokemons.push();
-    pokemons[_id].id = _id;
-    pokemons[_id].name = _name;
+    require((_abilityName).length == (_abilityDscription).length, "You must provide the name of each ability for each ability description.");
 
     for(uint i=0; i<_type.length; i++) {
       require(bytes((_type)[i]).length > 3, "The type must have at least 3 characters.");
     }
 
+    for(uint i=0; i<_abilityName.length; i++) {
+      require(bytes((_abilityName)[i]).length > 3, "The name must have at least 3 characters.");
+      require(bytes((_abilityDscription)[i]).length > 5, "The description must have at least 5 characters.");
+    }
+
+    uint _id = pokemons.length;
+    pokemons.push();
+    pokemons[_id].id = _id;
+    pokemons[_id].name = _name;
     pokemons[_id].pokemonType = _type;
 
     for(uint i=0; i<_abilityName.length; i++) {
