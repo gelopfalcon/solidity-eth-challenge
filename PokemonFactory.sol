@@ -3,7 +3,7 @@
 pragma solidity >=0.7.0 <0.9.0;
 
 contract PokemonFactory {
-  // Challenge 1
+
   event NewPokemon(
       uint idNewPokemon,
       string nameNewPokemon
@@ -13,15 +13,20 @@ contract PokemonFactory {
     uint id;
     string name;
   }
+  
+  struct Habilities {
+      string name;
+      string description;
+  }
 
-    Pokemon[] private pokemons;
+    Pokemon[] public pokemons;
 
     mapping (uint => address) public pokemonToOwner;
     mapping (address => uint) ownerPokemonCount;
+    mapping (uint => mapping(uint => Habilities)) public pokemonSkills;
 
 
     function createPokemon (string memory _name, uint _id) public {
-        // Challenge 2
         require(_id > 0 ,"The id of your new pokemon must be greater than 0");
         require(validatePokemonName(_name), "The name of your pokemon cannot be empty and must be greater than two characters");
         pokemons.push(Pokemon(_id, _name));
@@ -42,10 +47,15 @@ contract PokemonFactory {
       sum = a + b; 
    }
 
-    // Challenge 2
-   function validatePokemonName(string memory _name) public pure returns (bool){
+   function validatePokemonName(string memory _name) internal pure returns (bool){
         bytes memory name = bytes(_name);
         return name.length > 2 ? true : false;
     }
+
+    function setSkill(uint _idPokemon,uint _skillNumber , string memory _name, string memory _description) public {
+        require(pokemonToOwner[_idPokemon] == msg.sender, "You're not the owner");
+        pokemonSkills[_idPokemon][_skillNumber] = Habilities(_name,_description);
+    }
+
 
 }
