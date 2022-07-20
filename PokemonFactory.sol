@@ -7,6 +7,12 @@ contract PokemonFactory {
   struct Pokemon {
     uint id;
     string name;
+    Ability [] abilities;
+  }
+
+  struct Ability {
+      string name;
+      string description;
   }
 
     Pokemon[] private pokemons;
@@ -14,14 +20,26 @@ contract PokemonFactory {
     mapping (uint => address) public pokemonToOwner;
     mapping (address => uint) ownerPokemonCount;
 
-    event eventNewPokemon(string _name, uint _id);
+    event eventNewPokemon(Pokemon _pokemon);
 
     
-     function createPokemon (string memory _name, uint _id) public{
+     function createPokemon (string memory _name, uint _id, string[] memory _abilitiesNames, string[] memory _abilitiesDesc) public{
         require(_id>0, 'The pokemon id must be greater than 0');
         require(bytes(_name).length>1, 'The name must be not empty and have 2 or more characters');
-        pokemons.push(Pokemon(_id, _name));
-        emit eventNewPokemon(_name, _id);
+
+        uint index=pokemons.length;
+        pokemons.push();
+        pokemons[index].name=_name;
+        pokemons[index].id=_id;
+
+        for(uint i=0; i < _abilitiesNames.length; i++) {
+            pokemons[index].abilities.push(
+                Ability(_abilitiesNames[i], _abilitiesDesc[i])
+            );
+        }
+
+        
+        emit eventNewPokemon(pokemons[index]);
         pokemonToOwner[_id] = msg.sender;
         ownerPokemonCount[msg.sender]++;
     }
