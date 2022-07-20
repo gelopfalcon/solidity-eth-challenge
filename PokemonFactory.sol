@@ -59,13 +59,13 @@ contract PokemonFactory {
             require(_weaknesses.length > 0, "Debes tener al menos una debilidad");
 
             pokemons.push();
-            uint256 newIndex = pokemons.length - 1;
-            pokemons[newIndex].id = _id;
-            pokemons[newIndex].name = _name;
-            pokemons[newIndex].imageUri = _imageUri;
+            uint256 _newIndex = pokemons.length - 1;
+            pokemons[_newIndex].id = _id;
+            pokemons[_newIndex].name = _name;
+            pokemons[_newIndex].imageUri = _imageUri;
 
             for(uint i = 0; i < _skillNames.length; i++){
-                pokemons[newIndex].abilities.push(
+                pokemons[_newIndex].abilities.push(
                     Ability({
                         name: _skillNames[i], 
                         description: _skillDescriptions[i]
@@ -75,7 +75,7 @@ contract PokemonFactory {
 
             for(uint i = 0; i < _types.length; i++){
                 require(_types[i] <= amountOfTypes, "Debes mandar un id de tipo valido");
-                pokemons[newIndex].types.push(
+                pokemons[_newIndex].types.push(
                     Type({
                         id: i, 
                         name: pokemonTypes[_types[i]]
@@ -85,7 +85,7 @@ contract PokemonFactory {
 
             for(uint i = 0; i < _weaknesses.length; i++){
                 require(_types[i] <= amountOfTypes, "Debes mandar un id de tipo valido");
-                pokemons[newIndex].weaknesses.push(
+                pokemons[_newIndex].weaknesses.push(
                     Type({
                         id: i, 
                         name: pokemonTypes[_weaknesses[i]]
@@ -96,7 +96,7 @@ contract PokemonFactory {
             pokemonToOwner[_id] = msg.sender;
             ownerPokemonCount[msg.sender]++;
 
-            emit NewPokemon(_id, _name, _imageUri, pokemons[newIndex].abilities, pokemons[newIndex].types, pokemons[newIndex].weaknesses);
+            emit NewPokemon(_id, _name, _imageUri, pokemons[_newIndex].abilities, pokemons[_newIndex].types, pokemons[_newIndex].weaknesses);
     }
 
     function getType(uint _id) public view returns (string memory) {
