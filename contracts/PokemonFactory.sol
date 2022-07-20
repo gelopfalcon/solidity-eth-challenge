@@ -3,6 +3,8 @@
 pragma solidity >=0.7.0 <0.9.0;
 
 contract PokemonFactory {
+  uint _id;
+  
   event eventNewPokemon(Pokemon pokemon);
 
   struct Pokemon {
@@ -23,21 +25,28 @@ contract PokemonFactory {
   mapping(address => uint256) public ownerPokemonCount;
   mapping(address => mapping(uint => Pokemon)) ownedPokemons;
 
-  function createPokemon(string memory _name, string[] memory _abilityName, string[] memory _abilityDscription, string[] memory _type) public {
-    require(bytes(_name).length > 2, "The name must have at least 2 characters.");
-    require((_abilityName).length == (_abilityDscription).length, "You have to provide the same number of abilitie and description.");
-
-    uint _id = pokemons.length;
-    require(bytes((_abilityName)[_id]).length > 3, "The name must have at least 3 characters.");
-    require(bytes((_abilityDscription)[_id]).length > 5, "The description must have at least 5 characters.");
-    
-    pokemons.push();
-    pokemons[_id].id = _id;
-    pokemons[_id].name = _name;
-
+  modifier checkData(uint _id, string[] memory _abilityName, string[] memory _abilityDescription, string[] memory _type) {
     for(uint i=0; i<_type.length; i++) {
       require(bytes((_type)[i]).length > 3, "The type must have at least 3 characters.");
     }
+
+    for(uint i=0; i<_abilityName.length; i++) {
+      require(bytes((_abilityName)[_id]).length > 3, "The name must have at least 3 characters.");
+      require(bytes((_abilityDescription)[_id]).length > 5, "The description must have at least 5 characters.");
+    }
+
+    _;
+  }
+
+  function createPokemon(string memory _name, string[] memory _abilityName, string[] memory _abilityDscription, string[] memory _type) public checkData(_id, _abilityName, _abilityDscription, _type) {
+    _id = pokemons.length;
+    
+    require(bytes(_name).length > 2, "The name must have at least 2 characters.");
+    require((_abilityName).length == (_abilityDscription).length, "You must provide the name of each ability for each ability description.");
+
+    pokemons.push();
+    pokemons[_id].id = _id;
+    pokemons[_id].name = _name;
 
     pokemons[_id].pokemonType = _type;
 
