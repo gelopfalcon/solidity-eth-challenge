@@ -20,11 +20,13 @@ contract PokemonFactory {
   }
 
     Pokemon[] public pokemons;
+    
 
     mapping (uint => address) public pokemonToOwner;
     mapping (address => uint) ownerPokemonCount;
     mapping (uint => mapping(uint => Habilities)) public pokemonSkills;
-
+    mapping (uint => mapping(uint => string)) public pokemonTypes;
+    mapping (uint => mapping(uint => string)) public pokemonWeaknesses;
 
     function createPokemon (string memory _name, uint _id) public {
         require(_id > 0 ,"The id of your new pokemon must be greater than 0");
@@ -33,6 +35,11 @@ contract PokemonFactory {
         pokemonToOwner[_id] = msg.sender;
         ownerPokemonCount[msg.sender]++;
         emit NewPokemon(_id, _name);
+    }
+
+    modifier onlyOwner (uint _id) {
+        require(pokemonToOwner[_id] == msg.sender,"You're not the owner");
+        _;
     }
 
     function getAllPokemons() public view returns (Pokemon[] memory) {
@@ -52,10 +59,16 @@ contract PokemonFactory {
         return name.length > 2 ? true : false;
     }
 
-    function setSkill(uint _idPokemon,uint _skillNumber , string memory _name, string memory _description) public {
-        require(pokemonToOwner[_idPokemon] == msg.sender, "You're not the owner");
-        pokemonSkills[_idPokemon][_skillNumber] = Habilities(_name,_description);
+    function setSkill(uint _id,uint _skillNumber , string memory _name, string memory _description) public onlyOwner(_id) {
+        pokemonSkills[_id][_skillNumber] = Habilities(_name,_description);
     }
 
+    function setType(uint _id, uint _typeNumber, string memory types) public onlyOwner(_id) {
+        pokemonTypes[_id][_typeNumber] = types;
+    }
+
+    function setWeaknesses(uint _id, uint _typeNumber, string memory types) public  onlyOwner(_id){
+        pokemonTypes[_id][_typeNumber] = types;
+    }
 
 }
