@@ -8,11 +8,21 @@ contract PokemonFactory {
     uint id;
     string name;
     Ability [] abilities;
+    Type [] isType;
+    Type [] weakness;
   }
 
   struct Ability {
       string name;
       string description;
+  }
+
+  enum Type{
+      Grass,
+      Poison,
+      Fire,
+      Flying,
+      Psychic
   }
 
     Pokemon[] private pokemons;
@@ -23,7 +33,7 @@ contract PokemonFactory {
     event eventNewPokemon(Pokemon _pokemon);
 
     
-     function createPokemon (string memory _name, uint _id, string[] memory _abilitiesNames, string[] memory _abilitiesDesc) public{
+     function createPokemon (string memory _name, uint _id, string[] memory _abilitiesNames, string[] memory _abilitiesDesc, Type[] memory _isType, Type[] memory _weakness) public{
         require(_id>0, 'The pokemon id must be greater than 0');
         require(bytes(_name).length>1, 'The name must be not empty and have 2 or more characters');
 
@@ -38,6 +48,13 @@ contract PokemonFactory {
             );
         }
 
+        for(uint i=0; i < _isType.length; i++) {
+            pokemons[index].isType.push(_isType[i]);
+        }
+
+         for(uint i=0; i < _weakness.length; i++) {
+            pokemons[index].isType.push(_weakness[i]);
+        }
         
         emit eventNewPokemon(pokemons[index]);
         pokemonToOwner[_id] = msg.sender;
