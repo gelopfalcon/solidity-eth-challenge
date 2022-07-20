@@ -4,10 +4,10 @@ pragma solidity >=0.7.0 <0.9.0;
 
 contract PokemonFactory {
 
-  struct Pokemon {
-    uint id;
-    string name;
-  }
+    struct Pokemon {
+      uint id;
+      string name;
+    }
 
     Pokemon[] private pokemons;
 
@@ -30,6 +30,6 @@ contract PokemonFactory {
       uint b = 2;
       product = a * b;
       sum = a + b; 
-   }
+    }
 
 }
