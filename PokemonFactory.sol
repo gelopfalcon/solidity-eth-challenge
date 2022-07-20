@@ -17,14 +17,27 @@ contract PokemonFactory {
     // evento que se va a disparar
     event eventNewPokemon(Pokemon pokemon);
 
-    function createPokemon (string memory _name, uint _id) public {
-        require(_id > 0, 'Require id > 0');
-        require(bytes(_name).length > 2, 'Name require 2 or more characters');
-        Pokemon memory _newPokemon = Pokemon(_id, _name);
+    function createPokemon (string memory _name, uint _id) public isGreatZero(_id) pokemonNameRule(_name) {
+        Pokemon memory _newPokemon = Pokemon(
+            _id,
+            _name
+        );
         pokemons.push(_newPokemon);
         pokemonToOwner[_id] = msg.sender;
         ownerPokemonCount[msg.sender]++;
         emit eventNewPokemon (_newPokemon);
+    }
+
+    modifier isGreatZero(uint _number)
+    {
+        require(_number > 0, "Require id greater 0");
+        _;
+    }
+
+    modifier pokemonNameRule(string memory _name)
+    {
+        require(bytes(_name).length > 2, "Name require 2 or more characters");
+        _;
     }
 
     function getAllPokemons() public view returns (Pokemon[] memory) {
