@@ -9,15 +9,28 @@ contract PokemonFactory {
     string name;
   }
 
+    
     Pokemon[] private pokemons;
+
+    event eventNewPokemon(Pokemon);
 
     mapping (uint => address) public pokemonToOwner;
     mapping (address => uint) ownerPokemonCount;
 
      function createPokemon (string memory _name, uint _id) public {
+
+        require(_id>0, "Id must be greater than zero"); 
+
+        bytes memory b = bytes(_name);
+
+        require(b.length > 0 ,"the pokemon name must not be empty");
+        require(b.length > 2 ,"pokemon name must be greater than 2 characters");
+
         pokemons.push(Pokemon(_id, _name));
         pokemonToOwner[_id] = msg.sender;
         ownerPokemonCount[msg.sender]++;
+
+        emit eventNewPokemon(Pokemon(_id, _name));
     }
 
     function getAllPokemons() public view returns (Pokemon[] memory) {
