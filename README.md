@@ -53,3 +53,8 @@ function changeProjectName(string memory _projectName) public onlyOwner {
 }
 ```
 
+<h2>Reto #3</h2>
+Los Pokemons han evolucionado, ahora tienen una lista de habilidades (Abilities). Es decir, un Pokemon puede tener 1 ó muchas habilidades, cada habilidad tiene el siguiente formato:
+- Name
+- Description 
+
