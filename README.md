@@ -25,3 +25,31 @@ contract Asset {
 }
 
 ```
+
+<h2>Reto #2</h2>
+
+- Investigar sobre _require_.
+- Entonces, antes de agregar un nuevo Pokemon,  se debe validar que el id sea mayor a 0. De lo contrario, se debe desplegar un mensaje que corrija al usuario.
+- Entonces, antes de agregar un nuevo Pokemon,  se debe validar que el name no sea vació y mayor a 2 caracteres. De lo contrario, se debe desplegar un mensaje que corrija al usuario.
+
+## Require
+Es una función que nos permite hacer una validación, como primer parámetro recibe la condición y como segundo un mensaje al usuario sobre el error
+
+```ts
+  require(msg.sender == owner, "Only owner can change the project");
+```
+
+Podemos usar los requires con _modifiers_ para hacer validaciones
+
+```ts
+modifer onlyOwner() {
+  require(msg.sender == owner, "Only owner can change the project");
+};
+// La función es insertada en donde aparece este símbolo de guión bajo
+_;
+
+function changeProjectName(string memory _projectName) public onlyOwner {
+  projectName = _projectName;
+}
+```
+
