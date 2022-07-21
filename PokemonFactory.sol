@@ -122,3 +122,4 @@ contract PokemonFactory {
         return tempWeaknesses;
     }    
 }
+
