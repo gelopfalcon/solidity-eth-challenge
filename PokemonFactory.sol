@@ -66,7 +66,7 @@ contract PokemonFactory {
         );
         // We need to check if weaknesses and types are different
         for (uint256 i = 0; i < weaknesses.length; i++) {
-            for (uint256 j = 0; j < types.length; i++) {
+            for (uint256 j = 0; j < types.length; j++) {
                 require(
                     weaknesses[i] != types[j],
                     "Weaknesses and types must be different"
