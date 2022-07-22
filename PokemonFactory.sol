@@ -4,9 +4,20 @@ pragma solidity >=0.7.0 <0.9.0;
 
 contract PokemonFactory {
 
+    struct Ability {
+        string name;
+        string description;
+    }
+
+    struct Type {
+        string name;
+        string description;
+    }
+
     struct Pokemon {
       uint id;
       string name;
+      Ability[] abilities;
     }
 
     Pokemon[] private pokemons;
@@ -14,28 +25,32 @@ contract PokemonFactory {
     mapping (uint => address) public pokemonToOwner;
     mapping (address => uint) ownerPokemonCount;
 
-    // evento que se va a disparar
     event eventNewPokemon(Pokemon pokemon);
 
-    function createPokemon (string memory _name, uint _id) public isGreaterZero(_id) pokemonNameRule(_name) {
-        Pokemon memory _newPokemon = Pokemon(
-            _id,
-            _name
-        );
-        pokemons.push(_newPokemon);
-        pokemonToOwner[_id] = msg.sender;
-        ownerPokemonCount[msg.sender]++;
-        emit eventNewPokemon (_newPokemon);
+    function createPokemon (
+      string memory _name,
+      uint _id,
+      string[] memory _abilityNames,
+      string[] memory _abilityDescriptions
+    ) public isGreaterZero(_id) pokemonNameRule(_name) {
+      uint _newPokemonIndex = pokemons.length;
+      pokemons.push();
+      pokemons[_newPokemonIndex].name = _name;
+      pokemons[_newPokemonIndex].id = _id;
+      
+      addAbilities(_newPokemonIndex, _abilityNames, _abilityDescriptions);
+
+      pokemonToOwner[_id] = msg.sender;
+      ownerPokemonCount[msg.sender]++;
+      emit eventNewPokemon (pokemons[_newPokemonIndex]);
     }
 
-    modifier isGreaterZero(uint _number)
-    {
+    modifier isGreaterZero(uint _number) {
         require(_number > 0, "Require id greater 0");
         _;
     }
 
-    modifier pokemonNameRule(string memory _name)
-    {
+    modifier pokemonNameRule(string memory _name) {
         require(bytes(_name).length > 2, "Name require 2 or more characters");
         _;
     }
@@ -44,6 +59,23 @@ contract PokemonFactory {
       return pokemons;
     }
 
+    function addAbilities(uint _indexPokemon, string[] memory _abilityNames, string[] memory _abilityDescriptions) private {
+      require(_abilityNames.length == _abilityDescriptions.length, "Debera tener el mismo tamabo");
+      for (uint i = 0 ; i < _abilityNames.length; i++) {
+        pokemons[_indexPokemon].abilities.push(
+          Ability(_abilityNames[i], _abilityDescriptions[i])
+        );
+      }
+    }
+
+    function addType(uint _indexPokemon, string[] memory _types) private {
+      require(_types.length == _types.length, "Debera tener el mismo tamabo");
+      for (uint i = 0 ; i < _types.length; i++) {
+        pokemons[_indexPokemon].abilities.push(
+          Type(_types[i])
+          );
+      }
+    }
 
     function getResult() public pure returns(uint product, uint sum){
       uint a = 1; 
