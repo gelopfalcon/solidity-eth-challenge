@@ -68,7 +68,7 @@ contract PokemonFactory {
         for (uint256 i = 0; i < weaknesses.length; i++) {
             for (uint256 j = 0; j < types.length; i++) {
                 require(
-                    weaknesses[i] != weaknesses[j],
+                    weaknesses[i] != types[j],
                     "Weaknesses and types must be different"
                 );
             }
