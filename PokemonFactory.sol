@@ -11,13 +11,13 @@ contract PokemonFactory {
 
     struct Type {
         string name;
-        string description;
     }
 
     struct Pokemon {
       uint id;
       string name;
       Ability[] abilities;
+      Type[] types;
     }
 
     Pokemon[] private pokemons;
@@ -25,13 +25,15 @@ contract PokemonFactory {
     mapping (uint => address) public pokemonToOwner;
     mapping (address => uint) ownerPokemonCount;
 
+    // evento que se va a disparar
     event eventNewPokemon(Pokemon pokemon);
 
     function createPokemon (
       string memory _name,
       uint _id,
       string[] memory _abilityNames,
-      string[] memory _abilityDescriptions
+      string[] memory _abilityDescriptions,
+      string[] memory _types
     ) public isGreaterZero(_id) pokemonNameRule(_name) {
       uint _newPokemonIndex = pokemons.length;
       pokemons.push();
@@ -39,6 +41,8 @@ contract PokemonFactory {
       pokemons[_newPokemonIndex].id = _id;
       
       addAbilities(_newPokemonIndex, _abilityNames, _abilityDescriptions);
+      addTypes(_newPokemonIndex, _types);
+
 
       pokemonToOwner[_id] = msg.sender;
       ownerPokemonCount[msg.sender]++;
@@ -68,10 +72,9 @@ contract PokemonFactory {
       }
     }
 
-    function addType(uint _indexPokemon, string[] memory _types) private {
-      require(_types.length == _types.length, "Debera tener el mismo tamabo");
+    function addTypes(uint _indexPokemon, string[] memory _types) private {
       for (uint i = 0 ; i < _types.length; i++) {
-        pokemons[_indexPokemon].abilities.push(
+        pokemons[_indexPokemon].types.push(
           Type(_types[i])
           );
       }
