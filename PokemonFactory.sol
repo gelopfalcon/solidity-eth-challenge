@@ -8,22 +8,19 @@ contract PokemonFactory {
         string name;
         string description;
     }
-
-    struct Type {
-        string name;
-    }
-
+    
     struct Pokemon {
       uint id;
       string name;
       Ability[] abilities;
-      Type[] types;
+      string[] types;
+      string[] weaknesses;
     }
 
     Pokemon[] private pokemons;
 
     mapping (uint => address) public pokemonToOwner;
-    mapping (address => uint) ownerPokemonCount;
+    mapping (address => uint8) ownerPokemonCount;
 
     // evento que se va a disparar
     event eventNewPokemon(Pokemon pokemon);
@@ -33,7 +30,8 @@ contract PokemonFactory {
       uint _id,
       string[] memory _abilityNames,
       string[] memory _abilityDescriptions,
-      string[] memory _types
+      string[] memory _types,
+      string[] memory _weaknesses
     ) public isGreaterZero(_id) pokemonNameRule(_name) {
       uint _newPokemonIndex = pokemons.length;
       pokemons.push();
@@ -41,8 +39,8 @@ contract PokemonFactory {
       pokemons[_newPokemonIndex].id = _id;
       
       addAbilities(_newPokemonIndex, _abilityNames, _abilityDescriptions);
-      addTypes(_newPokemonIndex, _types);
-
+      pokemons[_newPokemonIndex].weaknesses = _weaknesses;
+      pokemons[_newPokemonIndex].types = _types;
 
       pokemonToOwner[_id] = msg.sender;
       ownerPokemonCount[msg.sender]++;
@@ -72,15 +70,8 @@ contract PokemonFactory {
       }
     }
 
-    function addTypes(uint _indexPokemon, string[] memory _types) private {
-      for (uint i = 0 ; i < _types.length; i++) {
-        pokemons[_indexPokemon].types.push(
-          Type(_types[i])
-          );
-      }
-    }
-
     function getResult() public pure returns(uint product, uint sum){
+      // Pure solo usa los parametros, no lee el estado ni tampoco lo modifica.
       uint a = 1; 
       uint b = 2;
       product = a * b;
