@@ -37,39 +37,38 @@ contract PokemonFactory {
      function createPokemon (
          string memory _name, 
          uint _id, 
-         string[] memory _abname, 
-         string[] memory _abdesc,
-         string[] memory _typename,
-         string[] memory _typedesc,
-         string[] memory _weakname, 
-         string[] memory _weakdesc
+         Ability[] memory abilities,
+         Type[] memory types,
+         Type[] memory weakness  
          ) public {
        //Reto #2 declaración de las condiciones y mensajes para el usuario
        require(_id > 0,"El id no puede ser igual a 0");
        require(bytes(_name).length > 2,"El nombre debe tener mas de 2 caracteres");
        
+       pokemons.push();
+       uint256 index = pokemons.length - 1;
        
-       for(uint i=0; i < _abname.length; i++) {
-       pokeToAbilitie[_id] = Ability(_abname[i], _abdesc[i]);
+       for(uint i=0; i < abilities.length; i++) {
+       pokeToAbilitie[index] = Ability(abilities[i].name, abilities[i].description);
        }
 
-       for(uint i=0; i < _typename.length; i++) {
-       pokeToType[_id] = Type(_typename[i], _typedesc[i]);
+       for(uint i=0; i < types.length; i++) {
+       pokeToType[index] = Type(types[i].nombre, types[i].descripcion);
        }
 
-       for(uint i=0; i < _weakname.length; i++) {
-       pokeToWeakness[_id] = Type(_weakname[i], _weakdesc[i]);
+       for(uint i=0; i < weakness.length; i++) {
+       pokeToWeakness[index] = Type(weakness[i].nombre, weakness[i].descripcion);
        }
 
-       pokemons[_id].name = _name;
-       pokemons[_id].id = _id; 
-       pokemons.push(pokemons[_id]);
+       pokemons[index].name = _name;
+       pokemons[index].id = _id; 
+       pokemons.push(pokemons[index]);
 
-        pokemonToOwner[_id] = msg.sender;
+        pokemonToOwner[index] = msg.sender;
         ownerPokemonCount[msg.sender]++;
 
         //Reto #1 emitir evento
-        emit eventNewPokemon(pokemons[_id]);
+        emit eventNewPokemon(pokemons[index]);
     }
 
     function getAllPokemons() public view returns (Pokemon[] memory) {
