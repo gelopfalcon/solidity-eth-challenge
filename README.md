@@ -9,5 +9,5 @@
 
 See the contract in Rinkeby <a href="https://rinkeby.etherscan.io/address/0x1affec6c3f0f51ce735835baa63382f9f5fe0988">0x1AfFec6C3F0f51ce735835BAa63382f9F5Fe0988</a>
 
-Enjoy and catch 'em all!
+Have fun and catch 'em all!
 
