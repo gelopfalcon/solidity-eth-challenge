@@ -51,6 +51,13 @@ contract PokemonFactory {
 
     }
 
+    function createPokemonType (uint8 _id, string memory _name) public {
+        require(_id > 0, "El id tiene que ser mayor a zero.");
+        require(bytes(_name).length > 2, "El nombre  debe tener mas de 2 carateres.");
+        pokemonTypes.push(PokemonType(_id, _name));
+        idToPokemonTypes[_id] = PokemonType(_id, _name);
+    }
+
     function getAllPokemons() public view returns (Pokemon[] memory) {
       return pokemons;
     }
@@ -61,6 +68,10 @@ contract PokemonFactory {
 
     function getAbilitiesFromPokemon(uint pokemonid) public view returns (Ability[] memory) {
       return pokemonIdToAbility[pokemonid];
+    }
+
+    function getAllPokemonTypes() public view returns (PokemonType[] memory) {
+      return pokemonTypes;
     }
 
 
