@@ -50,19 +50,23 @@ contract PokemonFactory {
        
        for(uint i=0; i < abilities.length; i++) {
        pokeToAbilitie[index] = Ability(abilities[i].name, abilities[i].description);
+       pokemons[index].abilities.push(Ability(abilities[i].name, abilities[i].description));
        }
 
        for(uint i=0; i < types.length; i++) {
        pokeToType[index] = Type(types[i].nombre, types[i].descripcion);
+       pokemons[index].types.push(Type(types[i].nombre, types[i].descripcion));
+
        }
 
        for(uint i=0; i < weakness.length; i++) {
        pokeToWeakness[index] = Type(weakness[i].nombre, weakness[i].descripcion);
+       pokemons[index].types.push(Type(weakness[i].nombre, weakness[i].descripcion));
+
        }
 
        pokemons[index].name = _name;
        pokemons[index].id = _id; 
-       pokemons.push(pokemons[index]);
 
         pokemonToOwner[index] = msg.sender;
         ownerPokemonCount[msg.sender]++;
