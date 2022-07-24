@@ -30,7 +30,9 @@ contract PokemonFactory {
     mapping (string => Ability) nameToAbility;
     mapping (uint => Ability[]) pokemonIdToAbility;
 
-    mapping (uint => PokemonType) idToPokemonTypes;
+    mapping (uint8 => PokemonType) idToPokemonTypes;
+
+    mapping (uint => PokemonType[]) pokemonToTypes;
 
     event eventNewPokemon(Pokemon);
 
@@ -86,6 +88,14 @@ contract PokemonFactory {
 
    function addAbilityToPokemon(uint _pokemonId, string memory _abiliteName) public {
       pokemonIdToAbility[idToPokemon[_pokemonId].id].push( nameToAbility[_abiliteName]);
-    }
+   }
+
+   function addTypeToPokemon(uint _pokemonId, uint8 _pokemonTypeId) public {
+      pokemonToTypes[idToPokemon[_pokemonId].id].push( idToPokemonTypes[_pokemonTypeId]);
+   }
+
+   function showTypeFromPokemon(uint _pokemonId) public view returns(PokemonType[] memory) {
+      return pokemonToTypes[idToPokemon[_pokemonId].id];
+   }
 
 }
