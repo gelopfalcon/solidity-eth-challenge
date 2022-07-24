@@ -88,10 +88,11 @@ contract PokemonFactory {
       sum = a + b; 
    }
 
+
    function addAbilityToPokemon(uint _pokemonId, string memory _abiliteName) public {
       pokemonIdToAbility[idToPokemon[_pokemonId].id].push( nameToAbility[_abiliteName]);
    }
-
+//Agregando type y debility a los pokemons
    function addTypeToPokemon(uint _pokemonId, uint8 _pokemonTypeId) public {
       pokemonToTypes[idToPokemon[_pokemonId].id].push( idToPokemonTypes[_pokemonTypeId]);
    }
