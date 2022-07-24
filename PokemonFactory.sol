@@ -49,7 +49,6 @@ contract PokemonFactory {
 
     function addAbility(uint _id, string memory _abilityName, string memory _abilityDescription) public {
         require(_id >= 0, "El id del Pokemon tiene que ser mayor que 0");
-        require(bytes(_abilityName).length > 2, "El nombre del Pokemon tiene que tener mas de 2 caracteres");
         pokemons[_id].abilities.push(Ability(_abilityName, _abilityDescription));
     }
 
