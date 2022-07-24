@@ -34,6 +34,8 @@ contract PokemonFactory {
 
     mapping (uint => PokemonType[]) pokemonToTypes;
 
+    mapping (uint => PokemonType[]) pokemonToDebility;
+
     event eventNewPokemon(Pokemon);
 
      function createPokemon (uint _id, string memory _name) public {
@@ -96,6 +98,14 @@ contract PokemonFactory {
 
    function showTypeFromPokemon(uint _pokemonId) public view returns(PokemonType[] memory) {
       return pokemonToTypes[idToPokemon[_pokemonId].id];
+   }
+
+   function addDebilityToPokemon(uint _pokemonId, uint8 _pokemonTypeId) public {
+      pokemonToDebility[idToPokemon[_pokemonId].id].push( idToPokemonTypes[_pokemonTypeId]);
+   }
+
+   function showDebilityFromPokemon(uint _pokemonId) public view returns(PokemonType[] memory) {
+      return pokemonToDebility[idToPokemon[_pokemonId].id];
    }
 
 }
