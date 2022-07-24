@@ -8,16 +8,18 @@ contract PokemonFactory {
     uint id;
     string name;
   }
+  event eventNewPokemon(address indexed _from, uint _id, uint _value);
 
     Pokemon[] private pokemons;
 
     mapping (uint => address) public pokemonToOwner;
     mapping (address => uint) ownerPokemonCount;
 
-     function createPokemon (string memory _name, uint _id) public {
+     function createPokemon (string memory _name, uint _id) public payable{
         pokemons.push(Pokemon(_id, _name));
         pokemonToOwner[_id] = msg.sender;
         ownerPokemonCount[msg.sender]++;
+        emit eventNewPokemon(msg.sender, _id, msg.value);
     }
 
     function getAllPokemons() public view returns (Pokemon[] memory) {
