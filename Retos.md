@@ -1,6 +1,7 @@
 <h2>Reto #1</h2>
 Investigar que son los Events en Solidity. Luego, debes implementar un evento que se llame eventNewPokemon, el cual se disparará cada vez que un nuevo Pokemon es creado.  Lo que emitirá el evento será el Pokemon que se creó. 
 
+**R: Event:** Es una acción que sirve para emitir avisos que manifiestan que una actividad ocurrió. Dichos avisos pueden ser creados manualmente. Por otra parte se debe tener en cuenta que esto consume gas.
 <h2>Reto #2</h2>
 
 - Investigar sobre “”require” .

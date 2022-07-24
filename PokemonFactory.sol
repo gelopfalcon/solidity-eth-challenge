@@ -9,27 +9,29 @@ contract PokemonFactory {
     string name;
   }
 
-    Pokemon[] private pokemons;
+  Pokemon[] private pokemons;
 
-    mapping (uint => address) public pokemonToOwner;
-    mapping (address => uint) ownerPokemonCount;
+  mapping (uint => address) public pokemonToOwner;
+  mapping (address => uint) ownerPokemonCount;
 
-     function createPokemon (string memory _name, uint _id) public {
-        pokemons.push(Pokemon(_id, _name));
-        pokemonToOwner[_id] = msg.sender;
-        ownerPokemonCount[msg.sender]++;
-    }
+  event eventNewPokemon (string);
 
-    function getAllPokemons() public view returns (Pokemon[] memory) {
-      return pokemons;
-    }
+  function createPokemon (string memory _name, uint _id) public {
+    pokemons.push(Pokemon(_id, _name));
+    pokemonToOwner[_id] = msg.sender;
+    ownerPokemonCount[msg.sender]++;
+    emit eventNewPokemon( _name);
+  }
 
+  function getAllPokemons() public view returns (Pokemon[] memory) {
+    return pokemons;
+  }
 
-    function getResult() public pure returns(uint product, uint sum){
-      uint a = 1; 
-      uint b = 2;
-      product = a * b;
-      sum = a + b; 
-   }
+  function getResult() public pure returns(uint product, uint sum){
+    uint a = 1; 
+    uint b = 2;
+    product = a * b;
+    sum = a + b; 
+  }
 
 }
