@@ -34,7 +34,7 @@ contract PokemonFactory {
 
     event eventNewPokemon(Pokemon);
 
-     function createPokemon (string memory _name, uint _id) public {
+     function createPokemon (uint _id, string memory _name) public {
         require(_id > 0, "El id tiene que ser mayor a zero.");
         require(bytes(_name).length > 2, "El nombre  debe tener mas de 2 carateres.");
         pokemons.push(Pokemon(_id, _name));
