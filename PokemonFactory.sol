@@ -14,10 +14,19 @@ contract PokemonFactory {
         uint id,
         string name
     );
+
   mapping (uint => address) public pokemonToOwner;
   mapping (address => uint) ownerPokemonCount;
 
-    function createPokemon (string memory _name, uint _id) public {
+  modifier validPokemon(string memory _name ,uint _id){
+    require(_id > 0, "El Id debe ser mayor de 0");
+    bytes memory strinCheck = bytes(_name);
+    require(strinCheck.length != 0,"El nombre no debe ser vacio");
+    require(strinCheck.length > 2,"La longitud del nombre debe ser mayor de 2");
+    _;
+  }
+
+  function createPokemon (string memory _name, uint _id) validPokemon(_name, _id) public {
       pokemons.push(Pokemon(_id, _name));
       pokemonToOwner[_id] = msg.sender;
       ownerPokemonCount[msg.sender]++;
@@ -38,4 +47,5 @@ contract PokemonFactory {
   }
 
 }
+
 
