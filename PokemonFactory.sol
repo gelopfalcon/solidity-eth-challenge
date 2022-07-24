@@ -9,27 +9,74 @@ contract PokemonFactory {
     string name;
   }
 
-    Pokemon[] private pokemons;
+  struct Ability {
+    string name;
+    string description;
+    
+  }
+  struct Type {
+    string name;
+  }
 
-    mapping (uint => address) public pokemonToOwner;
-    mapping (address => uint) ownerPokemonCount;
+  struct Weakness {
+    string name;
+  }
 
-     function createPokemon (string memory _name, uint _id) public {
-        pokemons.push(Pokemon(_id, _name));
-        pokemonToOwner[_id] = msg.sender;
-        ownerPokemonCount[msg.sender]++;
-    }
+  struct PokemonInfo {
+    uint pokemonId;
+    Ability[] abilities;
+    Type[] types;
+    Weakness[] weaknesses;
+  }
 
-    function getAllPokemons() public view returns (Pokemon[] memory) {
-      return pokemons;
-    }
+  Type[] private types;
+  PokemonInfo[] private pokemonsInfo;  
+  Pokemon[] private pokemons;
 
+  mapping (address => uint) public ownerPokemonCount;
+  mapping (uint => address) public pokemonIdToOwner;
+  mapping (uint => PokemonInfo) pokemonIdToPokemonInfo;
 
-    function getResult() public pure returns(uint product, uint sum){
-      uint a = 1; 
-      uint b = 2;
-      product = a * b;
-      sum = a + b; 
+  event eventNewPokemon(Pokemon pokemon);
+
+  function createPokemon (string memory name) public returns (uint) {
+      
+    uint pokemonId = pokemons.length + 1; // Esta lógica hace que no sea necesario validar si el ID es mayor a 0
+    require(bytes(name).length > 2 , "Nombre invalido");
+    pokemons.push(Pokemon(pokemonId, name));
+    pokemonIdToOwner[pokemonId] = msg.sender;
+    ownerPokemonCount[msg.sender]++;
+    PokemonInfo storage pokemonInfo = (pokemonsInfo.push());
+    pokemonInfo.pokemonId = pokemonId;
+    pokemonIdToPokemonInfo[pokemonId] = pokemonInfo;
+    emit eventNewPokemon(Pokemon(pokemonId, name));
+    return pokemonId;
+  }
+  
+  function addAbilityToPokemon(uint pokemonId, string memory name, string memory description) public {
+
+    require(pokemonIdToOwner[pokemonId] == msg.sender, "No tienes este pokemon");
+    pokemonIdToPokemonInfo[pokemonId].abilities.push(Ability(name, description));
+  }
+
+  function addATypeToPokemon(uint pokemonId, string memory name) public {
+
+    require(pokemonIdToOwner[pokemonId] == msg.sender, "No tienes este pokemon");
+    pokemonIdToPokemonInfo[pokemonId].types.push(Type(name));
+  }
+
+  function addAWeaknessToPokemon(uint pokemonId, string memory name) public {
+
+    require(pokemonIdToOwner[pokemonId] == msg.sender, "No tienes este pokemon");
+    pokemonIdToPokemonInfo[pokemonId].weaknesses.push(Weakness(name));
+
+  }
+
+  function getAllPokemons() public view returns (Pokemon[] memory) {
+    return pokemons;
    }
 
+  function getAPokemonInfoByPokemonId(uint pokemonId) public view returns (PokemonInfo memory) {
+    return pokemonIdToPokemonInfo[pokemonId];
+  }
 }
