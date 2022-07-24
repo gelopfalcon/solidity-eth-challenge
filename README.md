@@ -1,0 +1,11 @@
+# solidity-eth-challenge
+Reto #1
+Se creó el evento que imprime el id, nombre, habilidad principal, typo principal y debilidad principal, de cada Pokemon cuando es creado.
+Reto #2
+Se agregó los requires que validan que el nombre sea mayor de 2 caracteres, y el require que valida el id se agrego a las funciones addAbility, addType y addWeakness, ya que en la función que crea el Pokemon no es necesario pasar ni verificar la id.
+Reto #3
+Se agregó la estructura Ability y la función addAbility para gestionar las habilidaes de los Pokemones, con su nombre y descripción.
+Reto #4 - Estudiante distinguido
+Se agregaron las estructuras Type y Weakness con sus respectivas funciones para gestionar esta información en cada Pokemon.
+Dirección del Contrato:
+0x3328358128832A260C76A4141e19E2A943CD4B6D
