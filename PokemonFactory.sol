@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: GPL-3.0
 
 pragma solidity >=0.7.0 <0.9.0;
-
+import "./StringUtils.sol";
 contract PokemonFactory {
-
-  struct Pokemon {
-    uint id;
-    string name;
-  }
+    using StringUtils for string;
+    struct Pokemon {
+        uint id;
+        string name;
+    }
 
     Pokemon[] private pokemons;
 
@@ -17,6 +17,8 @@ contract PokemonFactory {
     event eventNewPokemon (address indexed _owner, uint indexed _id, string indexed _name);
 
     function createPokemon (string memory _name, uint _id) public {
+        require(_id > 0, "El ID debe ser mayor a 0");
+        require(_name.strlen() > 2, "El nombre debe tener al menos 2 caracteres");
         pokemons.push(Pokemon(_id, _name));
         pokemonToOwner[_id] = msg.sender;
         ownerPokemonCount[msg.sender]++;
