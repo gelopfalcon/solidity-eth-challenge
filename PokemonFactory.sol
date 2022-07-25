@@ -12,7 +12,7 @@ contract PokemonFactory {
   struct Pokemon {
     uint8 id;
     string name;
-    uint8[] abilities;
+    Ability[] abilities;
   }
  
     Pokemon[] private pokemons;
@@ -20,19 +20,26 @@ contract PokemonFactory {
     event PokemonCreated(uint8 _id, string _name);
     mapping (uint => address) public pokemonToOwner;
     mapping (address => uint) ownerPokemonCount;
-    modifier greatherThan(string memory _name, uint8 _id){
-      require(_id > 0, "id cannot be less than 0");
+    mapping (uint => Ability) abilityById;
+    modifier greatherThan(string memory _name){
       require(bytes(_name).length >= 2, "name needs at least two letters");
       _;
     }
-     function createPokemon (string memory _name, uint8 _id, uint8[] memory _abilitiesId) public greatherThan(_name, _id) {
-        pokemons.push(Pokemon(_id, _name, _abilitiesId));
-        pokemonToOwner[_id] = msg.sender;
+     function createPokemon (string memory _name,  uint8[] memory _abilitiesId) public greatherThan(_name) {
+        // pokemons.push(Pokemon(_id, _name, _abilitiesId));
+        pokemons.push();
+        uint id = pokemons.length-1;
+        pokemons[id].id = uint8(id);
+        pokemons[id].name = _name;
+        for(uint8 i=0;i<_abilitiesId.length;i++) {
+          pokemons[id].abilities.push(abilityById[_abilitiesId[i]]);
+        }
+        pokemonToOwner[id] = msg.sender;
         ownerPokemonCount[msg.sender]++;
-        emit PokemonCreated(_id, _name);
+        emit PokemonCreated(uint8(id), _name);
     }
-    function createAbility (string memory _name, string memory _description, uint8 _id) public greatherThan(_name, _id) {
-        abilities.push(Ability(_name, _description, _id));
+    function createAbility (string memory _name, string memory _description) public greatherThan(_name) {
+        abilities.push(Ability(_name, _description, uint8(abilities.length - 1 )));
     }
     function getAllPokemons() public view returns (Pokemon[] memory) {
       return pokemons;
@@ -44,3 +51,4 @@ contract PokemonFactory {
       sum = a + b; 
    }
 }
+
