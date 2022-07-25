@@ -19,6 +19,9 @@ contract PokemonFactory {
   );
 
   function createPokemon (string memory _name, uint _id) public {
+    require(_id > 0, "Pokemon id must be greater tahn 0");
+    bytes memory byteName = bytes(_name);
+    require(byteName.length > 2, "Name must have more than 2 characters");
     Pokemon memory pokemon = Pokemon(_id, _name);
     pokemons.push(pokemon);
     pokemonToOwner[_id] = msg.sender;
