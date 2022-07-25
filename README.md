@@ -7,5 +7,5 @@ Se agregó los requires que validan que el nombre sea mayor de 2 caracteres, y e
 Se agregó la estructura Ability y la función addAbility para gestionar las habilidaes de los Pokemones, con su nombre y descripción.
 <h2>Reto #4</h2>
 Se agregaron las estructuras Type y Weakness con sus respectivas funciones para gestionar esta información en cada Pokemon.
-<h3>Dirección del Contrato:<h3/>
+
 [Contratro en Rinkeby](https://rinkeby.etherscan.io/address/0xE1B4dC81CE7340194B5E9530A7B9AaE21b89A369)
