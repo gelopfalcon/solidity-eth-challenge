@@ -39,7 +39,7 @@ contract PokemonFactory {
         emit PokemonCreated(uint8(id), _name);
     }
     function createAbility (string memory _name, string memory _description) public greatherThan(_name) {
-        abilities.push(Ability(_name, _description, uint8(abilities.length - 1 )));
+        abilities.push(Ability(_name, _description, uint8(abilities.length)));
     }
     function getAllPokemons() public view returns (Pokemon[] memory) {
       return pokemons;
@@ -51,4 +51,3 @@ contract PokemonFactory {
       sum = a + b; 
    }
 }
-
