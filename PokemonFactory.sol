@@ -14,10 +14,13 @@ contract PokemonFactory {
     mapping (uint => address) public pokemonToOwner;
     mapping (address => uint) ownerPokemonCount;
 
-     function createPokemon (string memory _name, uint _id) public {
+    event eventNewPokemon (address indexed _owner, uint indexed _id, string indexed _name);
+
+    function createPokemon (string memory _name, uint _id) public {
         pokemons.push(Pokemon(_id, _name));
         pokemonToOwner[_id] = msg.sender;
         ownerPokemonCount[msg.sender]++;
+        emit eventNewPokemon(msg.sender, _id, _name);
     }
 
     function getAllPokemons() public view returns (Pokemon[] memory) {
@@ -26,10 +29,10 @@ contract PokemonFactory {
 
 
     function getResult() public pure returns(uint product, uint sum){
-      uint a = 1; 
+      uint a = 1;
       uint b = 2;
       product = a * b;
-      sum = a + b; 
+      sum = a + b;
    }
 
 }
