@@ -17,6 +17,8 @@ contract PokemonFactory {
     mapping (address => uint) ownerPokemonCount;
 
     function createPokemon (string memory _name, uint _id) public {
+        require(_id > 0, "Id should be more than 0.");
+        require(bytes(_name).length >= 2, "name needs at least two letters");
         pokemons.push(Pokemon(_id, _name));
         pokemonToOwner[_id] = msg.sender;
         ownerPokemonCount[msg.sender]++;
