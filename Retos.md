@@ -25,3 +25,7 @@
 - Los Pokemons  tienen debilidades (Weaknesses) las cuales pueden ser otros tipos de pokemones. Por ejemplo, Bulbasaur es débil contra pokemones de tipo Fire, Flying, Ice, Psychic. Proponga una solución e impleméntela.
 - Agregar imagenes a los Pokemones.
  
+
+<h2>Reto #5 - Plus</h2>
+
+- Agregar imágenes de los pokemones.
