@@ -1,3 +1,6 @@
+# solidity-eth-challenge
+soldity-challenge-sergiogarcia
+
 <h2>Reto #1</h2>
 Investigar que son los Events en Solidity. Luego, debes implementar un evento que se llame eventNewPokemon, el cual se disparará cada vez que un nuevo Pokemon es creado.  Lo que emitirá el evento será el Pokemon que se creó. 
 
@@ -17,5 +20,3 @@ Los Pokemons han evolucionado, ahora tienen una lista de habilidades (Habilities
 Los Pokemons  pueden pertenecer a más de un tipo (Type), por ejemplo: Bulbasaur es de tipo Grass y Poison. Proponga una solución e impleméntela. 
 
 Los Pokemons  tienen debilidades (Weaknesses) las cuales pueden ser otros tipos de pokemones. Por ejemplo,  Bulbasaur es débil contra pokemones de tipo Fire, Flying, Ice, Psychic. Proponga una solución e impleméntela.
-
- 
