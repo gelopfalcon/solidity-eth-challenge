@@ -19,7 +19,7 @@ contract PokemonFactory {
         require(_id > 0, "The pokemon id should be greather than 0");
         require(
             bytes(_name).length > 2,
-            "The pokemon name should be greather that two characters."
+            "The pokemon name should have more that two characters."
         );
         pokemons.push(Pokemon(_id, _name));
         pokemonToOwner[_id] = msg.sender;
