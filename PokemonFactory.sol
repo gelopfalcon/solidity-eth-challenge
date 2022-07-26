@@ -4,20 +4,35 @@ pragma solidity >=0.7.0 <0.9.0;
 
 contract PokemonFactory {
 
-  struct Pokemon {
-    uint id;
-    string name;
-  }
+    struct Types {
+        string name;
+        string description;
+    }
+
+    struct Abilities {
+        string name;
+        string description;
+    }
+
+    struct Pokemon {
+        uint id;
+        string name;
+        Ability[] abilities;
+        Type[] types;
+    }
 
     Pokemon[] private pokemons;
 
     mapping (uint => address) public pokemonToOwner;
     mapping (address => uint) ownerPokemonCount;
 
-     function createPokemon (string memory _name, uint _id) public {
+    event eventNewPokemon(string _name, uint8 _id);
+
+    function createPokemon (string memory _name, uint8 _id) public {
         pokemons.push(Pokemon(_id, _name));
         pokemonToOwner[_id] = msg.sender;
         ownerPokemonCount[msg.sender]++;
+        emit eventNewPokemon(_name, _id);
     }
 
     function getAllPokemons() public view returns (Pokemon[] memory) {
