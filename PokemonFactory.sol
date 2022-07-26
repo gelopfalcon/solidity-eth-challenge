@@ -3,11 +3,33 @@
 pragma solidity >=0.7.0 <0.9.0;
 
 contract PokemonFactory {
+    enum pokemonType{
+      Bug,
+      Dark,
+      Dragon,
+      Electric,
+      Fairy,
+      Fighting,
+      Fire,
+      Flying,
+      Ghost,
+      Grass,
+      Ground,
+      Ice,
+      Normal,
+      Poison,
+      Psychic,
+      Rock,
+      Steel,
+      Water
+    }
 
     struct Pokemon {
       uint id;
       string name;
       Ability[] abilities;
+      pokemonType[] types;
+      pokemonType[] weakness;
     }
 
     struct Ability{
@@ -50,6 +72,11 @@ contract PokemonFactory {
       _;
     }
 
+    modifier isPokemonValidType(pokemonType Type){
+      require(Type < pokemonType.Water, "This type of pokemon doesn't exist! please try again with another type");
+      _;
+    }
+
     function createPokemon (string memory _name, uint8 _id) public checkPokemonData(_name, _id) {
       pokemons.push();
       uint pokemonId = pokemons.length - 1;
@@ -69,6 +96,16 @@ contract PokemonFactory {
       uint idx = globalId[id];
       pokemons[idx - 1].abilities.push(Ability(name, description));
       emit eventNewPokemonAbility(name, description);
+    }
+
+    function addPokemonType(pokemonType Type, uint8 _id) public checkPokemonExist(_id) isPokemonValidType(Type){
+      uint pokemonId = globalId[_id];
+      pokemons[pokemonId - 1].types.push(Type);
+    }
+
+    function addPokemonWeaknesses(pokemonType weaknessesType, uint8 _id) public checkPokemonExist(_id) isPokemonValidType(weaknessesType){
+      uint pokemonId = globalId[_id];
+      pokemons[pokemonId - 1].weakness.push(weaknessesType);
     }
 
     function getResult() public pure returns(uint product, uint sum){
