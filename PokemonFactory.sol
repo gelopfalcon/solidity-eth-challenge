@@ -8,12 +8,14 @@ contract PokemonFactory {
     uint8 id;
     string name;
     string[] abilities;
+    string[] types;
   }
 
   struct Ability {
     string name;
     string description;
   }
+
 
   event eventNewPokemon(Pokemon pokemon);
   event eventprint(string print);
@@ -24,12 +26,29 @@ contract PokemonFactory {
     mapping (uint8 => address) public pokemonToOwner;
     mapping (address => uint8) ownerPokemonCount;
     mapping (string => string) public abilities;
+    mapping (string => string[]) public abilities2;
+    mapping (string => string[]) public weaknesses;
 
-     function createPokemon (string memory _name, uint8 _id) public {
-        require(_id>0,'_id must be greather than 0');
-        require(strLen(_name)>2,'_id must be greather than 2 characters ');
-        string[] memory _mem ;
-        Pokemon memory _pokemon = Pokemon(_id, _name,_mem);
+
+    modifier onlyOwner (uint8 _id){
+      int8 _pokemonId = getPokemonIndexById(_id);
+      require(_pokemonId>=0,'This _id does not exist');
+      require(msg.sender == pokemonToOwner[_id],'Only owner can use this method');
+    _;
+    }
+
+    modifier validateData (uint8 _id,string memory _name){
+      require(_id>0,'_id must be greather than 0');
+      require(strLen(_name)>2,'_id must be greather than 2 characters ');
+      require(pokemonToOwner[_id] == address(0), "ID already used");
+      _;
+    }
+
+
+    function createPokemon (uint8 _id,string memory _name,string[] memory _types) public validateData(_id,_name){
+        //require(strLen(_type)>3,'_id must be greather than 2 characters ');
+        string[] memory _defAbility ;
+        Pokemon memory _pokemon = Pokemon(_id, _name,_defAbility,_types);
         pokemons.push(_pokemon);
         pokemonToOwner[_id] = msg.sender;
         ownerPokemonCount[msg.sender]++;
@@ -46,23 +65,24 @@ contract PokemonFactory {
       return abilities[_nameAbility];
     }
 
-    function pushonPok() public {
-      pokemons[0].abilities.push('volartest');
-    }
-
-    function addAbility (uint8 _id,string memory _nameAbility) public{
+    function addPokemonAbility (uint8 _id,string memory _nameAbility) public onlyOwner(_id){
       string memory description = abilities[_nameAbility];
-      require(bytes(description).length>5,'no hay habilidad');
+      require(bytes(description).length>5,'there is no ability');
       int8 _pokemonId = getPokemonIndexById(_id);
       require(_pokemonId>=0,'This _id does not exist');
       pokemons[uint8(_pokemonId)].abilities.push(_nameAbility);
+    }
+
+    function addWeaknesses (string memory _type,string[] memory _typesWeakness) public{
+      weaknesses[_type]=_typesWeakness;
     }
 
     function getAllPokemons() public view returns (Pokemon[] memory) {
       return pokemons;
     }
 
-    function getOnePokemons(uint8 _ind) public view returns (Pokemon memory) {
+
+    function getOnePokemon(uint8 _ind) public view returns (Pokemon memory) {
       return pokemons[_ind];
     }
 
@@ -75,14 +95,6 @@ contract PokemonFactory {
       }
       return index;
     }
-
-
-    function getResult() public pure returns(uint product, uint sum){
-      uint a = 1; 
-      uint b = 2;
-      product = a * b;
-      sum = a + b; 
-   }
 
     function strLen(string memory str2len) internal pure returns(uint){
       uint i;
