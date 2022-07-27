@@ -102,6 +102,9 @@ Para los datos `tipo` (<i><b>_type</i></b>) y `debilidad` (<i><b>_weakness</i></
         - Anotar la Licencia utilizada en el contrato. En mi caso fué `GPL-3.0` porque puse la línea `// SPDX-License-Identifier: GPL-3.0` al principio del archivo [PokemonFactory.sol](https://github.com/tomkat-cr/solidity-eth-challenge/blob/main/PokemonFactory.sol).
         - Ir al reguistro del contrato en [Etherscan](https://ropsten.etherscan.io/address/0xe1e5a17db686a787075c39e75f4921ded5bd20a2#code).
         - Seguir las instrucciones para confirmar el byte code.
-        - Si todos los datos concuerdan (version del compilador, licencia y código fuente exacto que se usó), al cabo de un rato se podrá ver el código fuente en [Etherscan](https://ropsten.etherscan.io/address/0xe1e5a17db686a787075c39e75f4921ded5bd20a2#code). 
-- La primera versión de este contrato fué desplegada en en la Rosten Testnet Network. [Lo puedes ver haciendo clic aquí](https://ropsten.etherscan.io/address/0xe1e5a17db686a787075c39e75f4921ded5bd20a2#code).
+        - Si todos los datos concuerdan (version del compilador, licencia y código fuente exacto que se usó), al cabo de un rato se podrá ver el código fuente en [Etherscan](https://ropsten.etherscan.io/address/0xe1e5a17db686a787075c39e75f4921ded5bd20a2#code).
+    - Para ejecutar las funciones públicas del contrato, hacer clic en la pestaña `Contract` y luego clic en el botón `Write Contract`.
+    - Para consultar las variables de estado públicas del contrato, hacer clic en la pestaña `Contract` y luego clic en el botón `Read Contract`.
+
+La primera versión de este contrato fué desplegada en en la Rosten Testnet Network. [Lo puedes ver haciendo clic aquí](https://ropsten.etherscan.io/address/0xe1e5a17db686a787075c39e75f4921ded5bd20a2#code).
 
