@@ -1,12 +1,12 @@
 //SPDX-License-Identifier: MIT
-pragma solidity >=0.7.0 <0.9.0;
+pragma solidity ^0.8.7;
 
 contract PokemonFactory {
-    
     struct Pokemon {
-        uint id;
+        uint256 id;
         string name;
-        Ability[] abilities; /* @reto#3 Cada Pokemon cuenta con una lista de Habilidades */ 
+        string image;
+        Ability[] abilities;
         string[] types;
         string[] weaknesses;
     }
@@ -16,109 +16,72 @@ contract PokemonFactory {
         string description;
     }
 
-    /* State Variables */
-    Pokemon[] private pokemons;
+    Pokemon[] public pokemons;
+    string[] private types;
 
-    string[] private tempWeaknesses;
-    string[] private tempTypes;
+    mapping(uint256 => address) public pokemonToOwner;
+    mapping(address => Pokemon[]) pokedex; //ownerToPokemons
+    mapping(address => uint256) ownerPokemonCount;
 
-    mapping (uint => address) public pokemonToOwner;
-    mapping (address => uint) ownerPokemonCount;
+    mapping(string => string[]) private typesToWeaknesses;
 
-    //id => index  Recupera el indice del pokemon segun el id del pokemon
-    mapping (uint => uint) private pokemonIndex;
-    //types of pokemon
-    mapping (uint => string) private pokemonType;
-    mapping (uint => string[]) private pokemonWeakness;
+    event eventNewPokemon(Pokemon indexed eventNewPokemon);
 
-    /* Constructor */ 
-    constructor() {
-
-        pokemonType[0] = "GRASS";
-        pokemonType[1] = "POISON";
-        pokemonType[2] = "FIRE";
-        pokemonType[3] = "FLYING";
-        pokemonType[4] = "ICE";
-        pokemonType[5] = "PSYCHIC"; 
-        pokemonType[6] = "ROCK";
-        pokemonType[7] = "WATER";
-
-        pokemonWeakness[0] = ["FIRE", "FLYING", "ICE", "PSYCHIC"];
-        pokemonWeakness[1] = ["POISON", "PSYCHIC"];
-        pokemonWeakness[2] = ["WATER", "ROCK", "ICE"];
-        pokemonWeakness[3] = ["GRASS"];
-        pokemonWeakness[4] = ["FIRE", "WATER", "ROCK"];
-        pokemonWeakness[5] = ["POISON"];
-        pokemonWeakness[6] = ["FLYING", "FIRE", "ICE"];
-        pokemonWeakness[7] = ["ROCK", "FIRE"];
+    modifier isPokemonValid(uint256 _id, string calldata _name) {
+        require(_id > 0, "Debe seleccionar un id valido para el pokemon");
+        require(bytes(_name).length > 2, "El nombre debe ser mayor a 2 carateres");
+        require(types.length > 0, "Debe insertar tipos de pokemon");
+        _;
     }
 
-    /* Events */       
-    event EventNewPokemon(Pokemon indexed newPokemon);  
-
-    /* Functions */
-    function createPokemon (string memory _name, uint _id, string[] memory _abilities_name, string[] memory _abilities_description, uint[] memory types_id) public  {
-        /* @reto#2  Agregar require para la validación de id y nombre */ 
-        require(_id > 0, "Debe seleccionar un id valido para el pokemon");
-        require(bytes(_name).length == 0 || bytes(_name).length > 2, "Digite el nombre del pokemon, no vacio y mayor a dos caracteres");
-        
-        uint _index = pokemons.length;
-
-        pokemonIndex[_id] = _index;
-        
+    function createPokemon(
+        uint256 _id,
+        string calldata _name,
+        string calldata _image,
+        string[] calldata _namesAbility,
+        string[] calldata _descripsAbility,
+        string[] memory _types_name
+    ) public isPokemonValid(_id, _name) {
+        uint256 index = pokemons.length;
         pokemons.push();
-        pokemons[_index].id = _id;  
-        pokemons[_index].name = _name;
-        setPokemonAbilitiesById(_abilities_name, _abilities_description, _index);
-        pokemons[_index].types = getPokemonTypes(types_id);
-        pokemons[_index].weaknesses = getPokemonWeaknesses(types_id);
+        pokemons[index].id = _id;
+        pokemons[index].name = _name;
+        pokemons[index].image = _image;
 
-        pokemonToOwner[_id] = msg.sender;
-        ownerPokemonCount[msg.sender]++;      
+        for (uint256 i = 0; i < _namesAbility.length; i++) {
+            pokemons[index].abilities.push(Ability(_namesAbility[i], _descripsAbility[i]));
+        }
 
-        /* @reto#1  implementar un evento que se llame eventNewPokemon */  
-        emit EventNewPokemon(pokemons[_index]);
+        pokemons[index].types = _types_name;
+
+        for (uint256 j = 0; j < _types_name.length; j++) {
+            string[] memory weaknesses = typesToWeaknesses[_types_name[j]];
+            pokemons[index].weaknesses = weaknesses;
+        }
+
+        pokedex[msg.sender].push(pokemons[index]);
+
+        emit eventNewPokemon(pokemons[index]);
+    }
+
+    function createTypesToWeaknesses(string calldata _type, string[] memory _weaknesses) public {
+        types.push(_type);
+        typesToWeaknesses[_type] = _weaknesses;
+    }
+
+    function getAllTypes() public view returns (string[] memory) {
+        return types;
+    }
+
+    function getWeaknessesByType(string memory _type) public view returns (string[] memory) {
+        return typesToWeaknesses[_type];
+    }
+
+    function getMyPokemons() public view returns (Pokemon[] memory) {
+        return pokedex[msg.sender];
     }
 
     function getAllPokemons() public view returns (Pokemon[] memory) {
         return pokemons;
     }
-
-    function getPokemonById(uint id) public view returns(Pokemon memory pokemon)
-    {
-        return pokemons[pokemonIndex[id]];
-    }
-
-    function setPokemonAbilitiesById(string[] memory _abilities_name, string[] memory _abilities_description, uint _indexPokemon) private
-    {        
-        for (uint abilitiesIndex = 0; abilitiesIndex < _abilities_name.length; abilitiesIndex++) {
-            pokemons[_indexPokemon].abilities.push(Ability(_abilities_name[abilitiesIndex], _abilities_description[abilitiesIndex]));
-        }
-  
-    }    
-
-    function getPokemonTypes(uint[] memory types_id) private returns(string[] memory) {
-        tempTypes = new string[](0);
-
-        for(uint i =0; i < types_id.length; i++){
-            string memory _type = pokemonType[types_id[i]];
-            tempTypes.push(_type);
-        }
-        return tempTypes;
-    }
-  
-    /* @reto#4  Cada Pokemon puede pertencer a varios tipos y a su vez devuelve sus tipos de debilidades */ 
-    function getPokemonWeaknesses(uint[] memory types_id) private returns(string[] memory) {
-        tempWeaknesses = new string[](0);
-
-        for(uint i =0; i < types_id.length; i++){
-            string [] memory _pokemonWeaknessTemp = pokemonWeakness[types_id[i]];
-
-            for(uint j =0; j < _pokemonWeaknessTemp.length; j++)
-            {    
-                tempWeaknesses.push(_pokemonWeaknessTemp[j]);
-            }
-        }
-        return tempWeaknesses;
-    }    
 }
