@@ -1,10 +1,18 @@
 # solidity-eth-challenge
 
-## Pokemon Smart Contract
+## Pokemon Factory Smart Contract
 
 Mediante el lenguaje Solidity, crear un contrato inteligente de Ethereum para generar Pokemones, con sus habilidades, tipos y debilidades.
 
+### Dedicatoria
+
+Este reto se lo dedico a mi hermano [Luis Enrique Ramirez](http://luisraa.com/) (QEPD), el [niño eterno](https://www.instagram.com/luisraa_/), quien fue alto fan de la saga, y me enseñó el término [Entrenamiento Pokemón](https://pokemon.fandom.com/es/wiki/C%C3%B3mo_entrenar_bien_a_tus_Pok%C3%A9mon). Su Pokemón favorito siempre fué Pikachu.
+
+![Pikachu](https://static.wikia.nocookie.net/pokemon/images/0/0d/025Pikachu.png)
+
 ### Recursos
+
+Estos recursos suministran datos para crear los Pokemones en el contrato inteligente.
 
 - [Lista de Pokemones](https://pokemon.fandom.com/wiki/List_of_Pok%C3%A9mon)
 - [Tipos de Pokemones](https://pokemon.fandom.com/wiki/Types)
@@ -12,6 +20,27 @@ Mediante el lenguaje Solidity, crear un contrato inteligente de Ethereum para ge
 - [Habilidades de Pikachu](https://pokemon.fandom.com/wiki/Pikachu#Special_abilities)
 - [Tipo y Debilidad de Pikachu](https://www.pokemon.com/us/pokedex/pikachu)
 - [Imagen de ejemplo de Pokemón Pikachu](https://static.wikia.nocookie.net/pokemon/images/0/0d/025Pikachu.png)
+
+Para los datos `tipo` (<i><b>_type</i></b>) y `debilidad` (<i><b>_weakness</i></b>) en cada Pokemón, utilizar los valores numéricos de la sigiente tabla:
+
+      0 = Normal
+      1 = Fire
+      2 = Water
+      3 = Grass
+      4 = Electric
+      5 = Ice
+      6 = Fighting
+      7 = Poison
+      8 = Ground
+      9 = Flying
+     10 = Psychic
+     11 = Bug
+     12 = Rock
+     13 = Ghost
+     14 = Dark
+     15 = Dragon
+     16 = Steel
+     17 = Fairy
 
 ### Retos
 
@@ -28,7 +57,9 @@ Mediante el lenguaje Solidity, crear un contrato inteligente de Ethereum para ge
 11. [Si no es posible hacer return de estructuras, verificar return de multiples valores](https://docs.soliditylang.org/en/v0.5.3/control-structures.html#destructuring-assignments-and-returning-multiple-values)
 12. [Traer los archivos locales a Remix con el `remixd` daemon](https://remix-ide.readthedocs.io/en/latest/remixd.html)
 13. [Cargar el contrato en Remix](https://remix.ethereum.org/)
-14. Cargar el primer Pokemón.
+14. [Compilar y hacer Deploy del contrato en Remix](https://remix-ide.readthedocs.io/en/latest/create_deploy.html)
+15. [Cargar el primer Pokemón en el contrato](https://github.com/tomkat-cr/solidity-eth-challenge/blob/main/README.md#cargar-el-primer-pokem%C3%B3n)
+15. [Deployment en una Testnet](https://github.com/tomkat-cr/solidity-eth-challenge/blob/main/README.md#Deployment-en-una-Testnet)
 
 ### Cargar el primer Pokemón
 
@@ -37,19 +68,32 @@ Mediante el lenguaje Solidity, crear un contrato inteligente de Ethereum para ge
 - Ir a la pestaña DEPLOY & RUN TRANSACTIONS y hacer clic en el botón `Deploy`.
 - Bajar a la sección `Deployed Contracts`, abrir el elemento `POKEMONFACTORY AT ...`.
 - Buscar el elemento `createPokemon` y abrirlo.
-- Especficar los siguientes datos:
-    - _name: Pikachu
-    - _id: 1
-    - _abilityName: Static
-    - _abilityDescription: Can cause paralysis in battle if hit by a physical move
-    - _type: 4 (Electric)
-    - _weakness: 8 (Ground)
-    - _image: https://static.wikia.nocookie.net/pokemon/images/0/0d/025Pikachu.png
+- Especificar los siguientes datos:
+    * <i><b>_name</i></b>: Pikachu
+    * <i><b>_id</i></b>: 1
+    * <i><b>_abilityName</i></b>: Static
+    * <i><b>_abilityDescription</i></b>: Can cause paralysis in battle if hit by a physical move
+    * <i><b>_type</i></b>: 4
+    * <i><b>_weakness</i></b>: 8
+    * <i><b>_image</i></b>: https://static.wikia.nocookie.net/pokemon/images/0/0d/025Pikachu.png
 - Hacer clic en el botón `Transact`.
 - En la franja inferior derecha de la pantalla, hacer clic en el botón `Debug`, abrirlo haciendo clic en \/ y verificar la información de la transacción.
 - Enjoy!
 
+### Deployment en una Testnet
 
-### Dedicatoria
-
-Este reto se lo dedico a mi hermano [Luis Enrique Ramirez](http://luisraa.com/) (QEPD), quien fue alto fan de la saga, y me enseñó el término [Entrenamiento Pokemón](https://pokemon.fandom.com/es/wiki/C%C3%B3mo_entrenar_bien_a_tus_Pok%C3%A9mon).
+- Seguir las instrucciones de la clase de Deploy [Cómo desplegar nuestro contrato en Ropsten] en el curso de Desarrollo de Smart Contracts de Platzi (https://platzi.com/clases/2561-smart-contracts/43165-como-desplegar-nuestro-contrato-en-ropsten/)
+- Básicamente se resume a:
+    - Crear una Wallet en [Metamask](https://metamask.io/)
+    - Crear una cuenta en alguna Testnet:
+        - Debido a que en 2022 la Testnet [Ropsten](https://faucet.ropsten.be/) estaba ya cerrada, utilice la de [Paradigm](https://faucet.paradigm.xyz/): <https://faucet.paradigm.xyz>, que da ETH, WETH, DAI y algunos NFTs en 8 Testnets (Ropsten, Kovan, Rinkeby, Optimistic Kovan, Arbitrum Rinkeby, Avalanche Fuji, Görli y Polygon Mumbai).
+        - También su puede utilizar la [Faucet de Metamask](https://faucet.metamask.io/): <https://faucet.metamask.io>.
+    - Copiar y pegar la direccion de la Wallet de Metamask en la cuenta de la Faucet.
+    - Esperar los fondos.
+    - Compilar el contrato en Remix (se puede hacer presionando `Ctrl-S` u `Option-S`).
+    - Conectar Remix con la Wallet. [En este blog de Paul McAviney](https://blog.paulmcaviney.ca/deploy-to-ropsten-testnet) hay unas instrucciones interesantes para realizar este paso en una red Ropsten, y [en este otro enlace](https://docs.celo.org/developer-resources/deploy-remix) para hacerlo en [Celo](https://docs.celo.org/).
+    - Confirmar la conexión de Remix en la Wallet Metamask.
+    - Hacer clic en el botoón `Deploy`.
+    - Confirmar la operación de Despliegue en la Wallet Metamask.
+    - El resto del seguimiento de las transacciones se puede hacer en Metamask.
+- La primera versión de este contrato fué desplegada en en la Rosten Testnet Network. [Lo puedes ver haciendo clic aquí](https://ropsten.etherscan.io/address/0xe1e5a17db686a787075c39e75f4921ded5bd20a2#code). 
