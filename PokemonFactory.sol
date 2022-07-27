@@ -6,6 +6,12 @@ contract PokemonFactory {
     struct Pokemon {
         uint256 id;
         string name;
+        Skill[] skills;
+    }
+
+    struct Skill {
+        string name;
+        string description;
     }
 
     Pokemon[] private pokemons;
@@ -13,30 +19,34 @@ contract PokemonFactory {
     mapping(uint256 => address) public pokemonToOwner;
     mapping(address => uint256) ownerPokemonCount;
 
+    // logic for pokemons
+    mapping(uint256 => uint256) public pokemonIndexed;
+
     event eventNewPokemon(Pokemon _pokemonCreated);
 
-    function createPokemon(string memory _name, uint256 _id)
-        public
-        NameMinimunTwoCharacters(_name)
-        IsGreaterThanZero(_id)
-    {
-        Pokemon memory pokemonCreated = Pokemon(_id, _name);
-        pokemons.push(pokemonCreated);
+    // event eventAllPokemons(Pokemon[] _pokemonCreated);
+
+    function createPokemon(
+        string memory _name,
+        uint256 _id,
+        string memory _skillName,
+        string memory _skillDescription
+    ) public NameMinimunTwoCharacters(_name) IsGreaterThanZero(_id) {
+        pokemons.push();
+        uint256 lastIndex = pokemons.length - 1;
+        pokemons[lastIndex].id = _id;
+        pokemons[lastIndex].name = _name;
+        pokemons[lastIndex].skills.push(Skill(_skillName, _skillDescription));
+        pokemonIndexed[_id] = lastIndex;
+
         pokemonToOwner[_id] = msg.sender;
         ownerPokemonCount[msg.sender]++;
 
-        emit eventNewPokemon(pokemonCreated);
+        emit eventNewPokemon(pokemons[lastIndex]);
     }
 
     function getAllPokemons() public view returns (Pokemon[] memory) {
         return pokemons;
-    }
-
-    function getResult() public pure returns (uint256 product, uint256 sum) {
-        uint256 a = 1;
-        uint256 b = 2;
-        product = a * b;
-        sum = a + b;
     }
 
     modifier IsGreaterThanZero(uint256 _id) {
@@ -49,6 +59,37 @@ contract PokemonFactory {
         require(
             bytes(_name).length >= 2,
             "_name field should be have at least 2 characteres"
+        );
+        _;
+    }
+
+    function addSkill(
+        uint256 _pokemonId,
+        string memory _skillName,
+        string memory _skillDescription
+    ) public IsGreaterThanZero(_pokemonId) {
+        // Solución al buscar directamente en un mapping
+        pokemons[pokemonIndexed[_pokemonId]].skills.push(
+            Skill(_skillName, _skillDescription)
+        );
+
+        // emit eventAllPokemons(pokemons);
+        // Solución al recorrer un for
+        // for (uint256 counter = 0; counter < pokemons.length; counter++) {
+        //     if (pokemons[counter].id == _pokemonId) {
+        //         pokemons[pokemonIndexed[_pokemonId]].skills.push(
+        //             Skill(_skillName, _skillDescription)
+        //         );
+
+        //         emit eventAllPokemons(pokemons);
+        //     }
+        // }
+    }
+
+    modifier onlyExistingPokemon(uint256 _pokemonId) {
+        require(
+            bytes(pokemons[pokemonIndexed[_pokemonId]].name).length > 0,
+            "Please create a Pokemon to add skills."
         );
         _;
     }
