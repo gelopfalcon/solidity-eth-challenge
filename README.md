@@ -44,9 +44,9 @@ Para los datos `tipo` (<i><b>_type</i></b>) y `debilidad` (<i><b>_weakness</i></
 
 ### Retos
 
-1. [Hacer el curso de Smart Contracts](https://platzi.com/cursos/smart-contracts/)
+1. [Hacer el curso de Desarrollo de Smart Contracts de Platzi](https://platzi.com/cursos/smart-contracts/)
 2. [Hacer fork del repositorio original](https://github.com/gelopfalcon/solidity-eth-challenge/tree/main)
-3. [Analizar bien los requerimientos](https://github.com/gelopfalcon/solidity-eth-challenge/blob/main/Retos.md)
+3. [Analizar bien los requerimientos](https://github.com/tomkat-cr/solidity-eth-challenge/blob/main/Retos.md)
 4. [Crear estructura de habilidades](https://docs.soliditylang.org/en/v0.8.6/structure-of-a-contract.html#struct-types)
 5. [Crear tipos de pokemones con `enum`](https://docs.soliditylang.org/en/v0.8.6/structure-of-a-contract.html#enum-types)
 6. [Agregar habilidades, debilidades y tipo a las variables de estado Pokemon](https://docs.soliditylang.org/en/v0.8.6/structure-of-a-contract.html#state-variables)
@@ -59,7 +59,7 @@ Para los datos `tipo` (<i><b>_type</i></b>) y `debilidad` (<i><b>_weakness</i></
 13. [Cargar el contrato en Remix](https://remix.ethereum.org/)
 14. [Compilar y hacer Deploy del contrato en Remix](https://remix-ide.readthedocs.io/en/latest/create_deploy.html)
 15. [Cargar el primer Pokemón en el contrato](https://github.com/tomkat-cr/solidity-eth-challenge/blob/main/README.md#cargar-el-primer-pokem%C3%B3n)
-15. [Deployment en una Testnet](https://github.com/tomkat-cr/solidity-eth-challenge/blob/main/README.md#Deployment-en-una-Testnet)
+15. [Deployment en una Testnet](https://github.com/tomkat-cr/solidity-eth-challenge/blob/main/README.md#deployment-en-una-testnet)
 
 ### Cargar el primer Pokemón
 
@@ -82,9 +82,9 @@ Para los datos `tipo` (<i><b>_type</i></b>) y `debilidad` (<i><b>_weakness</i></
 
 ### Deployment en una Testnet
 
-- Seguir las instrucciones de la clase de Deploy [Cómo desplegar nuestro contrato en Ropsten] en el curso de Desarrollo de Smart Contracts de Platzi (https://platzi.com/clases/2561-smart-contracts/43165-como-desplegar-nuestro-contrato-en-ropsten/)
+- Seguir las instrucciones de la clase de Deploy [Cómo desplegar nuestro contrato en Ropsten](https://platzi.com/clases/2561-smart-contracts/43165-como-desplegar-nuestro-contrato-en-ropsten/) en el curso [Desarrollo de Smart Contracts](https://platzi.com/cursos/smart-contracts/) de Platzi.
 - Básicamente se resume a:
-    - Crear una Wallet en [Metamask](https://metamask.io/)
+    - Crear una Wallet en [Metamask](https://metamask.io/).
     - Crear una cuenta en alguna Testnet:
         - Debido a que en 2022 la Testnet [Ropsten](https://faucet.ropsten.be/) estaba ya cerrada, utilice la de [Paradigm](https://faucet.paradigm.xyz/): <https://faucet.paradigm.xyz>, que da ETH, WETH, DAI y algunos NFTs en 8 Testnets (Ropsten, Kovan, Rinkeby, Optimistic Kovan, Arbitrum Rinkeby, Avalanche Fuji, Görli y Polygon Mumbai).
         - También su puede utilizar la [Faucet de Metamask](https://faucet.metamask.io/): <https://faucet.metamask.io>.
@@ -96,4 +96,12 @@ Para los datos `tipo` (<i><b>_type</i></b>) y `debilidad` (<i><b>_weakness</i></
     - Hacer clic en el botoón `Deploy`.
     - Confirmar la operación de Despliegue en la Wallet Metamask.
     - El resto del seguimiento de las transacciones se puede hacer en Metamask.
-- La primera versión de este contrato fué desplegada en en la Rosten Testnet Network. [Lo puedes ver haciendo clic aquí](https://ropsten.etherscan.io/address/0xe1e5a17db686a787075c39e75f4921ded5bd20a2#code). 
+    - Alli estarán los enlaces para ver el contrato en [Etherscan](https://ropsten.etherscan.io/address/0xe1e5a17db686a787075c39e75f4921ded5bd20a2). Al entrar en el contrato se podrá ver sus datos y la [transacción que le dió origen](https://ropsten.etherscan.io/tx/0x9b33f38cf1a27d0790f813d18777db5ef81a6b39dcecd3faedaaeb4c76e77a0e).
+    - Si se desea poder ver el código fuente del contrato en [Etherscan](https://ropsten.etherscan.io/address/0xe1e5a17db686a787075c39e75f4921ded5bd20a2#code), es necesario:
+        - Anotar la versión exacta que se usó en la compilación del contrato en Remix (pestaña `SOLIDITY COMPILER`, sección `COMPILER`). En mi caso fué la `0.8.7+commit.e28d00a7`.
+        - Anotar la Licencia utilizada en el contrato. En mi caso fué `GPL-3.0` porque puse la línea `// SPDX-License-Identifier: GPL-3.0` al principio del archivo [PokemonFactory.sol](https://github.com/tomkat-cr/solidity-eth-challenge/blob/main/PokemonFactory.sol).
+        - Ir al reguistro del contrato en [Etherscan](https://ropsten.etherscan.io/address/0xe1e5a17db686a787075c39e75f4921ded5bd20a2#code).
+        - Seguir las instrucciones para confirmar el byte code.
+        - Si todos los datos concuerdan (version del compilador, licencia y código fuente exacto que se usó), al cabo de un rato se podrá ver el código fuente en [Etherscan](https://ropsten.etherscan.io/address/0xe1e5a17db686a787075c39e75f4921ded5bd20a2#code). 
+- La primera versión de este contrato fué desplegada en en la Rosten Testnet Network. [Lo puedes ver haciendo clic aquí](https://ropsten.etherscan.io/address/0xe1e5a17db686a787075c39e75f4921ded5bd20a2#code).
+
