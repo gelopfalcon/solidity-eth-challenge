@@ -7,11 +7,23 @@ contract PokemonFactory {
         uint256 id;
         string name;
         Skill[] skills;
+        Aweakness[] aweakness;
     }
 
     struct Skill {
         string name;
         string description;
+    }
+
+    struct Aweakness {
+        WeaknessStatus weaknesName;
+    }
+
+    enum WeaknessStatus {
+        Fire,
+        Psychic,
+        Flying,
+        Ice
     }
 
     Pokemon[] private pokemons;
@@ -30,13 +42,17 @@ contract PokemonFactory {
         string memory _name,
         uint256 _id,
         string memory _skillName,
-        string memory _skillDescription
+        string memory _skillDescription,
+        WeaknessStatus _weaknessStatus
     ) public NameMinimunTwoCharacters(_name) IsGreaterThanZero(_id) {
         pokemons.push();
         uint256 lastIndex = pokemons.length - 1;
         pokemons[lastIndex].id = _id;
         pokemons[lastIndex].name = _name;
-        pokemons[lastIndex].skills.push(Skill(_skillName, _skillDescription));
+        addSkill(_id, _skillName, _skillDescription);
+        // pokemons[lastIndex].skills.push(Skill(_skillName, _skillDescription));
+        addAweakness(_id, _weaknessStatus);
+        // pokemons[lastIndex].aweakness.push(Aweakness(_weaknessStatus));
         pokemonIndexed[_id] = lastIndex;
 
         pokemonToOwner[_id] = msg.sender;
@@ -86,11 +102,13 @@ contract PokemonFactory {
         // }
     }
 
-    modifier onlyExistingPokemon(uint256 _pokemonId) {
-        require(
-            bytes(pokemons[pokemonIndexed[_pokemonId]].name).length > 0,
-            "Please create a Pokemon to add skills."
+    function addAweakness(uint256 _pokemonId, WeaknessStatus _weaknessStatus)
+        public
+        IsGreaterThanZero(_pokemonId)
+    {
+        // Solución al buscar directamente en un mapping
+        pokemons[pokemonIndexed[_pokemonId]].aweakness.push(
+            Aweakness(_weaknessStatus)
         );
-        _;
     }
 }
