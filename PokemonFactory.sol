@@ -8,6 +8,7 @@ contract PokemonFactory {
     struct Pokemon {
         uint8 id;
         string name;
+        string skill;
     }
 
     Pokemon[] private pokemons;
@@ -15,10 +16,10 @@ contract PokemonFactory {
     mapping (uint8 => address) public pokemonToOwner;
     mapping (address => uint8) ownerPokemonCount;
 
-     function createPokemon (string memory _name, uint8 _id) public {
+     function createPokemon (string memory _name, uint8 _id, string memory _skill) public {
         require (_id > 0, "EL id no puede ser menor que 1");
-        require (bytes(_name).length > 2, "el nombre no debe ir vacio");
-        pokemons.push(Pokemon(_id, _name));
+        require (bytes(_name).length > 2, "el nombre no debe estar vacio");
+        pokemons.push(Pokemon(_id, _name, _skill));
         pokemonToOwner[_id] = msg.sender;
         ownerPokemonCount[msg.sender]++;
         emit createPokemonEvent(_id, _name);
