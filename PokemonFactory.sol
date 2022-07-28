@@ -37,7 +37,7 @@ contract PokemonFactory{
       _id > 0, "Id must be greater than 0"
     );
     require(
-      bytes(_name).length != 0, "Name must be declared"
+      bytes(_name).length > 2 || bytes(_name).length == 0, "Name must be declared and bigger than 2 characters"
     );
     _;
   }
