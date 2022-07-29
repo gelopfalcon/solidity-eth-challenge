@@ -4,10 +4,10 @@ pragma solidity >=0.7.0 <0.9.0;
 
 contract PokemonFactory {
 
-  mapping (uint => Pokemon) public pokemons;
-  mapping (uint => address) public pokemonToOwner;
-  mapping (address => uint) ownerPokemonCount;
-  mapping (uint => Ability[]) abilities;
+  mapping (bytes32 => Pokemon) public pokemons;
+  mapping (bytes32 => address) public pokemonToOwner;
+  mapping (address => uint) public ownerPokemonCount;
+  mapping (bytes32 => Ability[]) abilities;
   mapping (string => uint) pokeType;
   string[] arrayTypes;
   uint[][] weaknessTable;
@@ -57,7 +57,7 @@ contract PokemonFactory {
   }
 
   struct Pokemon {
-    uint id;
+    bytes32 id;
     string name;
     string type1;
     string type2;
@@ -72,14 +72,6 @@ contract PokemonFactory {
     address creator,
     Pokemon newPokemon
   );
-
-  modifier idValidator(uint _id){
-    require(
-      _id > 0,
-      "The ID must be greater than 0."
-      );
-    _;
-  }
 
   modifier nameValidator(string memory _name){
     require(
@@ -97,25 +89,26 @@ contract PokemonFactory {
     _;
   }
 
-  function createPokemon ( uint _id, string memory _name, string memory _type1, string memory _type2) public idValidator(_id) nameValidator(_name) typeValidator(_type1, _type2) {
+  function createPokemon ( string memory _name, string memory _type1, string memory _type2) public nameValidator(_name) typeValidator(_type1, _type2) {
     // create pokemon, asign to owner, and emit an event
-    pokemons[_id] = Pokemon(_id, _name, _type1, _type2);
-    pokemonToOwner[_id] = msg.sender;
+    bytes32 id = keccak256(abi.encodePacked(block.timestamp, msg.sender, _name));
+    pokemons[id] = Pokemon(id, _name, _type1, _type2);
+    pokemonToOwner[id] = msg.sender;
     ownerPokemonCount[msg.sender]++;
-    emit CreatePokemon(msg.sender, pokemons[_id]);
+    emit CreatePokemon(msg.sender, pokemons[id]);
   }
 
-  function addAbility (uint _id, string memory _name, string memory _description) public idValidator(_id) nameValidator(_name) {
+  function addAbility (bytes32 _id, string memory _name, string memory _description) public nameValidator(_name) {
     // add ability to pokemon ability list
     abilities[_id].push(Ability(_name, _description));
   }
 
-  function getPokemonDetails(uint _id) public view returns (Pokemon memory pokemon, string[5] memory weakness) {
+  function getPokemonDetails(bytes32 _id) public view returns (Pokemon memory pokemon, string[5] memory weakness) {
     pokemon = pokemons[_id];
     weakness = getResult(pokeType[pokemon.type1]-1, pokeType[pokemon.type2]-1);
   }
 
-  function getAbility(uint _id) public view idValidator(_id) returns (Ability[] memory) {
+  function getAbility(bytes32 _id) public view returns (Ability[] memory) {
     return abilities[_id];
   }
 
