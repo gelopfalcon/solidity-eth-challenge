@@ -4,7 +4,7 @@ pragma solidity >=0.7.0 <0.9.0;
 
 contract PokemonFactory {
 
-    event eventNewPokemon(Pokemon pokemon);
+    event EventNewPokemon(Pokemon pokemon);
 
     struct Type {
         uint id;
@@ -38,7 +38,9 @@ contract PokemonFactory {
         uint[] memory _abilityIds,
         uint[] memory _typeIds,
         uint[] memory _weaknessTypeIds
-    ) public {
+    ) 
+        public 
+    {
         require(_id > 0, "id must be greater than 0.");
 
         require(bytes(_name).length > 2, "name must be greater than 2 characters length.");
@@ -57,7 +59,89 @@ contract PokemonFactory {
         pokemons.push(pokemon);
         pokemonToOwner[_id] = msg.sender;
         ownerPokemonCount[msg.sender]++;
-        emit eventNewPokemon(pokemon);
+        emit EventNewPokemon(pokemon);
+    }
+
+    function getAllPokemons() public view returns (Pokemon[] memory) {
+        return pokemons;
+    }
+
+    function createAbility(
+        string memory _name, 
+        string memory _description, 
+        uint _id
+    ) 
+        public 
+    {
+        require(_id > 0, "id must be greater than 0.");
+        
+        require(bytes(_name).length > 2, "name must be greater than 2 characters length.");
+        require(!isEmpty(_name), "name must not be empty.");
+        
+        require(bytes(_description).length > 2, "description must be greater than 2 characters length.");
+        require(!isEmpty(_description), "description must not be empty.");
+        
+        Ability memory ability = Ability(_id, _name, _description);
+        abilities.push(ability);
+    }
+
+    function getAllAbilities() public view returns (Ability[] memory) {
+        return abilities;
+    }
+
+    function createType(
+        string memory _name,
+        uint _id
+    ) 
+        public 
+    {
+        require(_id > 0, "id must be greater than 0.");
+        
+        require(bytes(_name).length > 2, "name must be greater than 2 characters length.");
+        require(!isEmpty(_name), "name must not be empty.");
+        
+        Type memory t = Type(_id, _name);
+        types.push(t);
+    }
+
+    function getAllTypes() public view returns (Type[] memory) {
+        return types;
+    }
+
+    function isWeaker(
+        uint _pokemonId1, 
+        uint _pokemonId2
+    ) 
+        public 
+        view 
+        returns (bool) 
+    {
+        require(_pokemonId1 != _pokemonId2, "ids must be different.");
+
+        Pokemon memory pokemon1;
+        Pokemon memory pokemon2;
+        for (uint i = 0; i < pokemons.length; i++) {
+            if (pokemons[i].id == _pokemonId1) {
+                pokemon1 = pokemons[i];
+            } else if (pokemons[i].id == _pokemonId2) {
+                pokemon2 = pokemons[i];
+            }
+            if (pokemon1.id != 0 && pokemon2.id != 0) {
+                break;
+            }
+        }
+        if (pokemon1.id == 0 || pokemon2.id == 0) {
+            return false;
+        }
+        
+        for (uint i = 0; i < pokemon1.weaknessTypeIds.length; i++) {
+            for (uint j = 0; j < pokemon2.typeIds.length; j++) {
+                if (pokemon1.weaknessTypeIds[i] == pokemon2.typeIds[j]) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     function areValidAbilityIds(uint[] memory _abilityIds) private view returns (bool) {
@@ -104,84 +188,6 @@ contract PokemonFactory {
             }
         }
         return true;
-    }
-
-    function getAllPokemons() public view returns (Pokemon[] memory) {
-        return pokemons;
-    }
-
-    function createAbility(
-        string memory _name, 
-        string memory _description, 
-        uint _id
-    ) public {
-        require(_id > 0, "id must be greater than 0.");
-        
-        require(bytes(_name).length > 2, "name must be greater than 2 characters length.");
-        require(!isEmpty(_name), "name must not be empty.");
-        
-        require(bytes(_description).length > 2, "description must be greater than 2 characters length.");
-        require(!isEmpty(_description), "description must not be empty.");
-        
-        Ability memory ability = Ability(_id, _name, _description);
-        abilities.push(ability);
-    }
-
-    function getAllAbilities() public view returns (Ability[] memory) {
-        return abilities;
-    }
-
-    function createType(
-        string memory _name,
-        uint _id
-    ) public {
-        require(_id > 0, "id must be greater than 0.");
-        
-        require(bytes(_name).length > 2, "name must be greater than 2 characters length.");
-        require(!isEmpty(_name), "name must not be empty.");
-        
-        Type memory t = Type(_id, _name);
-        types.push(t);
-    }
-
-    function getAllTypes() public view returns (Type[] memory) {
-        return types;
-    }
-
-    function isWeaker(uint _pokemonId1, uint _pokemonId2) public view returns (bool) {
-        require(_pokemonId1 != _pokemonId2, "ids must be different.");
-
-        Pokemon memory pokemon1;
-        Pokemon memory pokemon2;
-        for (uint i = 0; i < pokemons.length; i++) {
-            if (pokemons[i].id == _pokemonId1) {
-                pokemon1 = pokemons[i];
-            } else if (pokemons[i].id == _pokemonId2) {
-                pokemon2 = pokemons[i];
-            }
-            if (pokemon1.id != 0 && pokemon2.id != 0) {
-                break;
-            }
-        }
-        if (pokemon1.id == 0 || pokemon2.id == 0) {
-            return false;
-        }
-        
-        for (uint i = 0; i < pokemon1.weaknessTypeIds.length; i++) {
-            for (uint j = 0; j < pokemon2.typeIds.length; j++) {
-                if (pokemon1.weaknessTypeIds[i] == pokemon2.typeIds[j]) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    function getResult() public pure returns(uint product, uint sum){
-        uint a = 1; 
-        uint b = 2;
-        product = a * b;
-        sum = a + b; 
     }
 
 }
