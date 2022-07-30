@@ -29,10 +29,13 @@ contract PokemonFactory {
         Water
     }
 
-  struct Pokemon {
-    uint id;
-    string name;
-  }
+    struct Pokemon {
+        uint256 id;
+        string name;
+        Ability[] abilities;
+        Element[] types;
+        Element[] weaknesses;
+    }
 
     Pokemon[] private pokemons;
 
