@@ -4,6 +4,11 @@ pragma solidity >=0.7.0 <0.9.0;
 
 contract PokemonFactory {
 
+      struct Ability {
+        string name;
+        string description;
+    }
+
   struct Pokemon {
     uint id;
     string name;
