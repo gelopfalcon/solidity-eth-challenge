@@ -14,10 +14,14 @@ contract PokemonFactory {
     mapping (uint => address) public pokemonToOwner;
     mapping (address => uint) ownerPokemonCount;
 
-     function createPokemon (string memory _name, uint _id) public {
-        pokemons.push(Pokemon(_id, _name));
+    event eventNewPokemon (Pokemon pokemon);
+
+    function createPokemon (string memory _name, uint _id) public {
+        Pokemon memory p = Pokemon(_id, _name);
+        pokemons.push(p);
         pokemonToOwner[_id] = msg.sender;
         ownerPokemonCount[msg.sender]++;
+        emit eventNewPokemon (p);
     }
 
     function getAllPokemons() public view returns (Pokemon[] memory) {
