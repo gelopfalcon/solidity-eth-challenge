@@ -1,6 +1,6 @@
 # solidity-eth-challenge
 
-## Imagen mostrando las pruebas hechas a los métodos requeridos
+## Imagen mostrando las pruebas hechas a los métodos requeridos usando REMIX
 ![image](https://user-images.githubusercontent.com/41027286/182682049-6bab47e4-d69f-4cd0-b88f-18f5dbff69cf.png)
 
 
