@@ -9,6 +9,7 @@ contract PokemonFactory {
       string name;
       Ability[] abilities;
       PokemonType[] pokemonTypes;
+      PokemonType[] weaknesses;     
     }
 
     struct Ability {
@@ -71,6 +72,17 @@ contract PokemonFactory {
         if (pokemons[i].id == _idPokemon) {
             for (uint j = 0; j < _pokemonTypes.length; j++) {
               pokemons[i].pokemonTypes.push(_pokemonTypes[j]);
+            }
+            break;
+        } 
+      }
+    }
+
+    function addWeaknessesToPokemon(uint _idPokemon, PokemonType[] memory _pokemonWeaknesses) public {
+      for (uint256 i; i<pokemons.length; i++) {
+        if (pokemons[i].id == _idPokemon) {
+            for (uint j = 0; j < _pokemonWeaknesses.length; j++) {
+              pokemons[i].weaknesses.push(_pokemonWeaknesses[j]);
             }
             break;
         } 
