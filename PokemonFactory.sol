@@ -57,7 +57,7 @@ contract PokemonFactory {
         _;
     }
 
-    function getAllPokemons() public view returns (Pokemon[] memory) {
+    function getAllPokemons() external view returns (Pokemon[] memory) {
       return pokemons;
     }
 
@@ -70,7 +70,7 @@ contract PokemonFactory {
       }
     }
 
-    function getResult() public pure returns(uint product, uint sum){
+    function getResult() external pure returns(uint product, uint sum){
       // Pure solo usa los parametros, no lee el estado ni tampoco lo modifica.
       uint a = 1; 
       uint b = 2;
