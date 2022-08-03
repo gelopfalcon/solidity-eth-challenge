@@ -8,6 +8,7 @@ contract PokemonFactory {
       uint id;
       string name;
       Ability[] abilities;
+      PokemonType[] pokemonTypes;
     }
 
     struct Ability {
@@ -15,10 +16,31 @@ contract PokemonFactory {
       string description;
     }
 
+    enum PokemonType {
+      BUG,
+      DARK,
+      DRAGON,
+      ELECTRIC,
+      FAIRY,
+      FIGHTING,
+      FIRE,
+      FLYING,
+      GHOST,
+      GRASS,
+      GROUND,
+      ICE,
+      NORMAL,
+      POISON,
+      PSYCHIC,
+      ROCK,
+      STEEL,
+      WATER
+      }
+
     Pokemon[] private pokemons;
 
-    mapping (uint => address) public pokemonToOwner;
-    mapping (address => uint) ownerPokemonCount;
+    mapping (uint => address) public pokemonToOwner; //guarda el id del pokemon vs el address del que esta ejecutando el smart contract, el address viene del frontend
+    mapping (address => uint) ownerPokemonCount;// vamos a a tener un conteo de la cantidad de pokemones por address.
 
     event eventNewPokemon (Pokemon pokemon);
 
@@ -27,7 +49,7 @@ contract PokemonFactory {
         require(bytes(_name).length > 2, "Pokemon's name should have more that two characters.");
         Pokemon storage pokemon = pokemons.push();
         pokemon.id = _id;
-        pokemon.name = _name;        
+        pokemon.name = _name;
         pokemonToOwner[_id] = msg.sender;
         ownerPokemonCount[msg.sender]++;
         emit eventNewPokemon (pokemon);
@@ -38,6 +60,17 @@ contract PokemonFactory {
         if (pokemons[i].id == _idPokemon) {
             for (uint j = 0; j < _abilities.length; j++) {
               pokemons[i].abilities.push(_abilities[j]);
+            }
+            break;
+        } 
+      }
+    }
+
+    function addTypesToPokemon(uint _idPokemon, PokemonType[] memory _pokemonTypes) public {
+      for (uint256 i; i<pokemons.length; i++) {
+        if (pokemons[i].id == _idPokemon) {
+            for (uint j = 0; j < _pokemonTypes.length; j++) {
+              pokemons[i].pokemonTypes.push(_pokemonTypes[j]);
             }
             break;
         } 
