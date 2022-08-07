@@ -4,7 +4,7 @@ pragma solidity >=0.7.0 <0.9.0;
 
 contract PokemonFactory {
 
-  struct Habilities {
+  struct Abilities {
     string name;
     string description;
   }
@@ -12,7 +12,7 @@ contract PokemonFactory {
   struct Pokemon {
     uint8 id;
     string name;
-    Habilities[] habilities;
+    Abilities[] abilities;
     string[] types;
     string[] weaknesses;
   }
@@ -24,10 +24,10 @@ contract PokemonFactory {
 
   event eventNewPokemon(string _pokemonName);
 
-  function createPokemon (string memory _name, uint8 _id) public {
+  function createPokemon (string memory _name, uint8 _id, Abilities[] memory _abilities, string[] memory _types, string[] memory _weaknesses) public {
     require (_id > 0, "el id debe ser mayor a 0" );
-    require(bytes(_name).length, "el nombre debe contener mas de 2 caracteres");
-    pokemons.push(Pokemon(_id, _name));
+    require(bytes(_name).length > 2, "el nombre debe contener mas de 2 caracteres");
+    pokemons.push(Pokemon(_id, _name, _abilities, _types, _weaknesses));
     pokemonToOwner[_id] = msg.sender;
     ownerPokemonCount[msg.sender]++;
 
@@ -38,10 +38,10 @@ contract PokemonFactory {
     return pokemons;
   }
 
-  function addHabilityById(uint8 _id, string memory _hability, string memory _description) public {
+  function addAbilityById(uint8 _id, string memory _ability, string memory _description) public {
     for(uint8 i = 0; i < pokemons.length; i++){
       if(pokemons[i].id == _id){
-        pokemons[i].habilities.push(Habilities(_hability, _description));
+        pokemons[i].abilities.push(Abilities(_ability, _description));
       }
     }
   }
@@ -49,7 +49,7 @@ contract PokemonFactory {
   function addTypeById(uint8 _id, string memory _type) public {
     for(uint8 i = 0; i < pokemons.length; i++){
       if(pokemons[i].id == _id){
-        pokemons[i].types.push(Habilities(_type));
+        pokemons[i].types.push(_type);
       }
     }
   }
