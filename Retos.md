@@ -1,9 +1,16 @@
 <h2>Reto #1</h2>
 Investigar que son los Events en Solidity. Luego, debes implementar un evento que se llame eventNewPokemon, el cual se disparará cada vez que un nuevo Pokemon es creado.  Lo que emitirá el evento será el Pokemon que se creó. 
 
+<h3>Eventos</h3>
+Permite conectar lo que pasa dentro de la Blockchain con el exterior porque a tráves de un protocolo otras aplicaciones se pueden suscribir a ellos y escuchar todo lo que está pasando en el Smart Contract.
+
+<h4>Se usan para:</h4>
+- Registrar cambios que se hicieron
+- Feedback (Retroalimentación)
+
 <h2>Reto #2</h2>
 
-- Investigar sobre “”require” .
+- Investigar sobre "require".
 - Entonces, antes de agregar un nuevo Pokemon,  se debe validar que el id sea mayor a 0. De lo contrario, se debe desplegar un mensaje que corrija al usuario.
 - Entonces, antes de agregar un nuevo Pokemon,  se debe validar que el name no sea vació y mayor a 2 caracteres. De lo contrario, se debe desplegar un mensaje que corrija al usuario.
 
