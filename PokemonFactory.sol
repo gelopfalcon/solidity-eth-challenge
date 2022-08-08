@@ -49,7 +49,7 @@ contract PokemonFactory {
         bytes memory b = bytes(_name);
         require(_id > 0, "El ID debe de ser mayor que 0");
         require(b.length > 2, "El nombre debe tener al menos dos caracteres");                        
-        require(_abilities.length != _descriptions.length, "El numero de habilidades y descripciones no es correct");
+        require(_abilities.length == _descriptions.length, "El numero de habilidades y descripciones no es correct");
         
         for (uint8 c = 0; c < _types.length; c++) {
             require(TypesWeaknesses[_types[c]].length == 0, "Uno de los tipos de pokemon que ingresaste, no existe");
@@ -71,12 +71,4 @@ contract PokemonFactory {
     function getAllPokemons() public view returns (Pokemon[] memory) {
       return pokemons;
     }
-
-    function getResult() public pure returns(uint product, uint sum){
-      uint a = 1; 
-      uint b = 2;
-      product = a * b;
-      sum = a + b; 
-   }
-
 }
