@@ -62,4 +62,10 @@ contract PokemonFactory {
       product = a * b;
       sum = a + b; 
   }
+
+  function addingSkills(uint _id, string[] memory _skill, string[] memory _skillDescription) private {
+    for(uint i=0; i < _skill.length; i++) {
+      pokemons[_id].skills.push(Skill(_skill[i], _skillDescription[i]));
+    }
+  }
 }
