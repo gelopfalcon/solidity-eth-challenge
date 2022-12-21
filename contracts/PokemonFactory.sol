@@ -13,6 +13,7 @@ contract PokemonFactory {
     // Enum and Structures definition
 
     enum PokemonType {
+      NoWeakness,
       Normal,
       Fire,
       Water,
@@ -127,7 +128,7 @@ contract PokemonFactory {
       return pokemons[idToPokemonIndex[_id]];
     }
 
-    // Ability Functions
+    // Pokemon Ability Functions
 
     function addAbilityToPokemon(
       uint _id,

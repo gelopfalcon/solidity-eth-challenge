@@ -21,7 +21,7 @@
 
 <h2>Reto #4 - Estudiante distinguido </h2>
 
-- Los Pokemons  pueden pertenecer a más de un tipo (Type), por ejemplo: Bulbasaur es de tipo Grass y Poison. Proponga una solución e impleméntela. 
+- Los Pokemons pueden pertenecer a más de un tipo (Type), por ejemplo: Bulbasaur es de tipo Grass y Poison. Proponga una solución e impleméntela.
 - Los Pokemons  tienen debilidades (Weaknesses) las cuales pueden ser otros tipos de pokemones. Por ejemplo, Bulbasaur es débil contra pokemones de tipo Fire, Flying, Ice, Psychic. Proponga una solución e impleméntela.
 - Agregar imagenes a los Pokemones.
  

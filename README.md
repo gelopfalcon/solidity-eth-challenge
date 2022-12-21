@@ -23,24 +23,25 @@ Estos recursos suministran datos para crear los Pokemones en el contrato intelig
 
 Para los datos `tipo` (<i><b>_type</i></b>) y `debilidad` (<i><b>_weakness</i></b>) en cada Pokemón, utilizar los valores numéricos de la sigiente tabla:
 
-      0 = Normal
-      1 = Fire
-      2 = Water
-      3 = Grass
-      4 = Electric
-      5 = Ice
-      6 = Fighting
-      7 = Poison
-      8 = Ground
-      9 = Flying
-     10 = Psychic
-     11 = Bug
-     12 = Rock
-     13 = Ghost
-     14 = Dark
-     15 = Dragon
-     16 = Steel
-     17 = Fairy
+      0 = No Weakness
+      1 = Normal
+      2 = Fire
+      3 = Water
+      4 = Grass
+      5 = Electric
+      6 = Ice
+      7 = Fighting
+      8 = Poison
+      9 = Ground
+     10 = Flying
+     11 = Psychic
+     12 = Bug
+     13 = Rock
+     14 = Ghost
+     15 = Dark
+     16 = Dragon
+     17 = Steel
+     18 = Fairy
 
 ### Retos
 
@@ -73,8 +74,8 @@ Para los datos `tipo` (<i><b>_type</i></b>) y `debilidad` (<i><b>_weakness</i></
     * <i><b>_id</i></b>: 1
     * <i><b>_abilityName</i></b>: Static
     * <i><b>_abilityDescription</i></b>: Can cause paralysis in battle if hit by a physical move
-    * <i><b>_type</i></b>: 4
-    * <i><b>_weakness</i></b>: 8
+    * <i><b>_type</i></b>: 5
+    * <i><b>_weakness</i></b>: 9
     * <i><b>_image</i></b>: https://static.wikia.nocookie.net/pokemon/images/0/0d/025Pikachu.png
 - Hacer clic en el botón `Transact`.
 - En la franja inferior derecha de la pantalla, hacer clic en el botón `Debug`, abrirlo haciendo clic en \/ y verificar la información de la transacción.
@@ -86,7 +87,7 @@ Para los datos `tipo` (<i><b>_type</i></b>) y `debilidad` (<i><b>_weakness</i></
 - Básicamente se resume a:
     - Crear una Wallet en [Metamask](https://metamask.io/).
     - Crear una cuenta en alguna Testnet:
-        - Debido a que en 2022 la Testnet [Ropsten](https://faucet.ropsten.be/) estaba ya cerrada, utilice la de [Paradigm](https://faucet.paradigm.xyz/): <https://faucet.paradigm.xyz>, que da ETH, WETH, DAI y algunos NFTs en 8 Testnets (Ropsten, Kovan, Rinkeby, Optimistic Kovan, Arbitrum Rinkeby, Avalanche Fuji, Görli y Polygon Mumbai).
+        - Debido a que en agosto de 2022 la Testnet [Ropsten](https://faucet.ropsten.be/) estaba ya cerrada, utilice la de [Paradigm](https://faucet.paradigm.xyz/): <https://faucet.paradigm.xyz>, que da ETH, WETH, DAI y algunos NFTs en 8 Testnets (Ropsten, Kovan, Rinkeby, Optimistic Kovan, Arbitrum Rinkeby, Avalanche Fuji, Göerli y Polygon Mumbai).
         - También su puede utilizar la [Faucet de Metamask](https://faucet.metamask.io/): <https://faucet.metamask.io>.
     - Copiar y pegar la direccion de la Wallet de Metamask en la cuenta de la Faucet.
     - Esperar los fondos.
@@ -97,14 +98,192 @@ Para los datos `tipo` (<i><b>_type</i></b>) y `debilidad` (<i><b>_weakness</i></
     - Confirmar la operación de Despliegue en la Wallet Metamask.
     - El resto del seguimiento de las transacciones se puede hacer en Metamask.
     - Alli estarán los enlaces para ver el contrato en [Etherscan](https://ropsten.etherscan.io/address/0xe1e5a17db686a787075c39e75f4921ded5bd20a2). Al entrar en el contrato se podrá ver sus datos y la [transacción que le dió origen](https://ropsten.etherscan.io/tx/0x9b33f38cf1a27d0790f813d18777db5ef81a6b39dcecd3faedaaeb4c76e77a0e).
-    - Si se desea poder ver el código fuente del contrato en [Etherscan](https://ropsten.etherscan.io/address/0xe1e5a17db686a787075c39e75f4921ded5bd20a2#code), es necesario:
+    - Si se desea poder ver el código fuente del contrato en [Etherscan](https://goerli.etherscan.io/address/0xb0198833fA2778800F3cC55Bf052BaB9452152C1), es necesario:
         - Anotar la versión exacta que se usó en la compilación del contrato en Remix (pestaña `SOLIDITY COMPILER`, sección `COMPILER`). En mi caso fué la `0.8.7+commit.e28d00a7`.
         - Anotar la Licencia utilizada en el contrato. En mi caso fué `GPL-3.0` porque puse la línea `// SPDX-License-Identifier: GPL-3.0` al principio del archivo [PokemonFactory.sol](https://github.com/tomkat-cr/solidity-eth-challenge/blob/main/PokemonFactory.sol).
-        - Ir al reguistro del contrato en [Etherscan](https://ropsten.etherscan.io/address/0xe1e5a17db686a787075c39e75f4921ded5bd20a2#code).
+        - Ir al registro del contrato en [Etherscan](https://goerli.etherscan.io/address/0xb0198833fA2778800F3cC55Bf052BaB9452152C1).
         - Seguir las instrucciones para confirmar el byte code.
-        - Si todos los datos concuerdan (version del compilador, licencia y código fuente exacto que se usó), al cabo de un rato se podrá ver el código fuente en [Etherscan](https://ropsten.etherscan.io/address/0xe1e5a17db686a787075c39e75f4921ded5bd20a2#code).
+        - Si todos los datos concuerdan (version del compilador, licencia y código fuente exacto que se usó), al cabo de un rato se podrá ver el código fuente en [Etherscan](https://goerli.etherscan.io/address/0xb0198833fA2778800F3cC55Bf052BaB9452152C1).
     - Para ejecutar las funciones públicas del contrato, hacer clic en la pestaña `Contract` y luego clic en el botón `Write Contract`.
     - Para consultar las variables de estado públicas del contrato, hacer clic en la pestaña `Contract` y luego clic en el botón `Read Contract`.
 
+La versión post-Merge fué desplegada en en la Goerli Testnet Network. [Lo puedes ver haciendo clic aquí](https://goerli.etherscan.io/address/0xb0198833fA2778800F3cC55Bf052BaB9452152C1).
+
 La primera versión de este contrato fué desplegada en en la Rosten Testnet Network. [Lo puedes ver haciendo clic aquí](https://ropsten.etherscan.io/address/0xe1e5a17db686a787075c39e75f4921ded5bd20a2#code).
 
+## Actualizacion de Diciembre 2022
+
+Luego implementé el deploy (despliegue) con [Hardhat](https://github.com/NomicFoundation/hardhat).
+
+Algunos comandos de Hardhat:
+
+```shell
+npx hardhat help
+npx hardhat test
+REPORT_GAS=true npx hardhat test
+npx hardhat node
+npx hardhat run scripts/deploy.js
+```
+
+## Inicializando el proyecto con Hardhat
+
+Para agregar Hardhat a un proyecto web3 que no lo tenga:
+
+### Instalar dependencias e inicializar el proyecto Hardhat
+
+```shell
+npm init
+npm install -D hardhat dotenv
+npx hardhat
+```
+
+### Crear el archivo hardhat.config.js
+
+En el directorio raíz del proyecto, crear el archivo hardhat.config.js:
+
+```js
+require("@nomicfoundation/hardhat-toolbox");
+require("@nomiclabs/hardhat-ethers");
+require('dotenv').config({ path: __dirname + '/.env' });
+
+const GOERLI_RPC_URL = process.env.GOERLI_RPC_URL;
+const PRIVATE_KEY = process.env.PRIVATE_KEY;
+const ETHERSCAN_KEY = process.env.ETHERSCAN_KEY;
+
+/** @type import('hardhat/config').HardhatUserConfig */
+module.exports = {
+    solidity: "0.8.17",
+  defaultNetwork: "hardhat",
+  networks: {
+      localhost: {
+          chainId: 31337,
+    },
+    goerli: {
+        url: GOERLI_RPC_URL,
+      accounts: PRIVATE_KEY ? [PRIVATE_KEY] : [],
+      chainId: 5,
+    },
+  },
+  etherscan: {
+      apiKey: ETHERSCAN_KEY,
+  },
+};
+```
+
+### Modificar el archivo deploy.js
+
+En el directorio `scripts`, modificar el archivo `deploy.js` con el siguiente contenido:
+
+```js
+// We require the Hardhat Runtime Environment explicitly here. This is optional
+// but useful for running the script in a standalone fashion through `node <script>`.
+//
+// You can also run a script with `npx hardhat run <script>`. If you do that, Hardhat
+// will compile your contracts, add the Hardhat Runtime Environment's members to the
+// global scope, and execute the script.
+const hre = require("hardhat");
+
+async function main() {
+  const PokemonFactory = await hre.ethers.getContractFactory("PokemonFactory");
+  const pokemonFactory = await PokemonFactory.deploy();
+
+  await pokemonFactory.deployed();
+
+  console.log(
+    `PokemonFactory deployed to ${pokemonFactory.address}`
+  );
+}
+
+// We recommend this pattern to be able to use async/await everywhere
+// and properly handle errors.
+main().catch((error) => {
+  console.error(error);
+  process.exitCode = 1;
+});
+```
+
+## ¿Cómo ejecutar este código?
+
+1.- Clonar o descargar el repositorio:
+
+```bash
+git clone https://github.com/tomkat-cr/solidity-eth-challenge.git
+```
+
+2.- Cambiarse al directorio:
+
+```bash
+cd solidity-eth-challenge
+```
+
+3.- Ejecutar el comando:
+
+```bash
+npm install
+```
+
+## Configuración
+
+Para configurar los parámetros:
+
+1.- GOERLI_RPC_URL: será necesario crear una cuenta en [Infura](https://www.infura.io), [Alchemy](https://www.alchemy.com) u otro Web3 Development Platform.
+
+2.- PRIVATE_KEY: será necesario crear una Wallet y obtener su llave privada, por ejemplo en [Metamask](https://metamask.io)
+
+3.- ETHERSCAN_KEY: será necesario crear una cuenta en [Etherscan](https://etherscan.io) y una API Key en [My API Keys](https://etherscan.io/myapikey)
+
+Luego:
+
+4.- Crear el archivo .env copiando desde el modelo con el comando:
+
+```bash
+cp .env.example .env
+```
+
+5.- Asignar los valores a los parámetros en el archivo .env:
+
+```bash
+vi .env
+```
+
+## Test
+
+Para ejecutar las pruebas:
+
+1.- Ejecute el nodo local:
+
+```bash
+npm run node
+```
+
+o
+
+```bash
+npx hardhat node
+```
+
+2.- Ejecutar los tests:
+
+```bash
+npm run test
+```
+
+o
+
+```bash
+npx hardhat test
+```
+
+## Deploy del contrato
+
+1.- Para hacer el deploy en la Testnet Goerli, usar el comando:
+
+```bash
+npm run deploy
+```
+
+1.- Para hacer el deploy en la Testnet Local, usar el comando:
+
+```bash
+npm run dev:deploy
+```
