@@ -1,35 +1,87 @@
-// SPDX-License-Identifier: GPL-3.0
-
-pragma solidity >=0.7.0 <0.9.0;
+//SPDX-License-Identifier: MIT
+pragma solidity ^0.8.7;
 
 contract PokemonFactory {
+    struct Pokemon {
+        uint256 id;
+        string name;
+        string image;
+        Ability[] abilities;
+        string[] types;
+        string[] weaknesses;
+    }
 
-  struct Pokemon {
-    uint id;
-    string name;
-  }
+    struct Ability {
+        string name;
+        string description;
+    }
 
-    Pokemon[] private pokemons;
+    Pokemon[] public pokemons;
+    string[] private types;
 
-    mapping (uint => address) public pokemonToOwner;
-    mapping (address => uint) ownerPokemonCount;
+    mapping(uint256 => address) public pokemonToOwner;
+    mapping(address => Pokemon[]) pokedex; //ownerToPokemons
+    mapping(address => uint256) ownerPokemonCount;
 
-     function createPokemon (string memory _name, uint _id) public {
-        pokemons.push(Pokemon(_id, _name));
-        pokemonToOwner[_id] = msg.sender;
-        ownerPokemonCount[msg.sender]++;
+    mapping(string => string[]) private typesToWeaknesses;
+
+    event eventNewPokemon(Pokemon indexed eventNewPokemon);
+
+    modifier isPokemonValid(uint256 _id, string calldata _name) {
+        require(_id > 0, "Debe seleccionar un id valido para el pokemon");
+        require(bytes(_name).length > 2, "El nombre debe ser mayor a 2 carateres");
+        require(types.length > 0, "Debe insertar tipos de pokemon");
+        _;
+    }
+
+    function createPokemon(
+        uint256 _id,
+        string calldata _name,
+        string calldata _image,
+        string[] calldata _namesAbility,
+        string[] calldata _descripsAbility,
+        string[] memory _types_name
+    ) public isPokemonValid(_id, _name) {
+        uint256 index = pokemons.length;
+        pokemons.push();
+        pokemons[index].id = _id;
+        pokemons[index].name = _name;
+        pokemons[index].image = _image;
+
+        for (uint256 i = 0; i < _namesAbility.length; i++) {
+            pokemons[index].abilities.push(Ability(_namesAbility[i], _descripsAbility[i]));
+        }
+
+        pokemons[index].types = _types_name;
+
+        for (uint256 j = 0; j < _types_name.length; j++) {
+            string[] memory weaknesses = typesToWeaknesses[_types_name[j]];
+            pokemons[index].weaknesses = weaknesses;
+        }
+
+        pokedex[msg.sender].push(pokemons[index]);
+
+        emit eventNewPokemon(pokemons[index]);
+    }
+
+    function createTypesToWeaknesses(string calldata _type, string[] memory _weaknesses) public {
+        types.push(_type);
+        typesToWeaknesses[_type] = _weaknesses;
+    }
+
+    function getAllTypes() public view returns (string[] memory) {
+        return types;
+    }
+
+    function getWeaknessesByType(string memory _type) public view returns (string[] memory) {
+        return typesToWeaknesses[_type];
+    }
+
+    function getMyPokemons() public view returns (Pokemon[] memory) {
+        return pokedex[msg.sender];
     }
 
     function getAllPokemons() public view returns (Pokemon[] memory) {
-      return pokemons;
+        return pokemons;
     }
-
-
-    function getResult() public pure returns(uint product, uint sum){
-      uint a = 1; 
-      uint b = 2;
-      product = a * b;
-      sum = a + b; 
-   }
-
 }
