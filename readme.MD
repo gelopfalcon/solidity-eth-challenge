@@ -1,0 +1,7 @@
+<h2>Retos completados</h2>
+
+Los retos 1 y 2 fueron bastante sencillos de completar. En ellos, se crearon ciertos eventos para transmitir cuando ocurre algo importante dentro de la aplicación y se implementaron métodos "require" para prevenir cualquier funcionamiento erróneo dentro de la misma.
+
+Para los retos 3 y 4, se identificó que las habilidades, tipos y debilidades eran estructuras que se repetían varias veces, ya que varios pokemones tienen las mismas habilidades, tipos y debilidades. Por lo tanto, se creó un arreglo de habilidades y tipos existentes dentro de la aplicación. Luego, se utilizó un arreglo de índices dentro de la estructura pokemon que apuntan a las posiciones de los arreglos anteriores para identificar qué habilidades, tipos y debilidades tiene cada pokemon. De esta manera, no se necesita almacenar la estructura dentro de cada pokemon, sino solo números enteros, lo cual hace que ocupe menos espacio de memoria.
+
+Se decidió hacerlo de esta manera en lugar de utilizar "mappings" ya que se hace bastante uso de la propiedad "length" tanto para saber las posiciones como para hacer validaciones. Además, esto simplifica la implementación y reduce el costo de almacenamiento en la aplicación.
