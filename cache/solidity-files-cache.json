@@ -2,8 +2,8 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "J:\\Curso\\blockchain\\solidity-eth-challenge\\contracts\\PokemonFactory.sol": {
-      "lastModificationDate": 1679057425948,
-      "contentHash": "7d174ef12d96a61725f72506549d4778",
+      "lastModificationDate": 1679066146893,
+      "contentHash": "ed65b1fd0999c06139b736c87fa858cd",
       "sourceName": "contracts/PokemonFactory.sol",
       "solcConfig": {
         "version": "0.8.18",

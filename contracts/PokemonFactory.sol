@@ -4,11 +4,14 @@ pragma solidity >=0.7.0 <0.9.0;
 
 contract PokemonFactory {
 
+ 
+ 
   struct Pokemon {
     uint id;
     string name;
     Tipos [] Type;
     Tipos [] Weaknesses;
+    uint[] Habilities;
   }
 
   struct Habilities {
@@ -34,27 +37,32 @@ contract PokemonFactory {
   }
 
     Pokemon[] private pokemons;
-    Habilities[] private habilities;
 
     enum Tipos {fire, water, grass, electric, psychic, ghost, dragon, normal, fighting, flying, poison, ground, rock, bug, steel, fairy, ice, dark}
 
     mapping (uint => address) public pokemonToOwner;
     mapping (address => uint) ownerPokemonCount;
+    mapping (uint => Habilities[]) public pokemonHabilities;
 
-     function createPokemon (uint _id, string memory _name, Tipos[] memory _Type, Tipos[] memory _Weaknesses) public onlyId(_id) onlyName(_name) {
-        pokemons.push(Pokemon(_id, _name, _Type, _Weaknesses));
+     function createPokemon (uint _id, string memory _name, Tipos[] memory _Type, Tipos[] memory _Weaknesses, uint[] memory _habilities) public onlyId(_id) onlyName(_name) {
+        pokemons.push(Pokemon(_id, _name, _Type, _Weaknesses, _habilities));
         pokemonToOwner[_id] = msg.sender;
         ownerPokemonCount[msg.sender]++;
+
+        for (uint i = 0; i < _habilities.length; i++) {
+            pokemonHabilities[_id].push(Habilities("",""));
+        }
+
         emit eventNewPokemon(_id, _name);
     }
 
-    function evolutionPokemon (string memory _Name, string memory _Description, uint _id) public {
-        habilities.push(Habilities(_Name, _Description));
-        pokemonToOwner[_id] = msg.sender;
+    function pokemonEvolution (uint _pokemonId, uint _habilityIndex, string memory _name, string memory _description) public {
+        pokemonHabilities[_pokemonId][_habilityIndex] = Habilities(_name, _description);
+
     }
 
-    function getAllPokemons() public view returns (Pokemon[] memory, Habilities[] memory) {
-        return (pokemons, habilities);
+    function getAllPokemons() public view returns (Pokemon[] memory) {
+        return (pokemons);
     }
 
 
