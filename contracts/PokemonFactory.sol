@@ -9,6 +9,12 @@ contract PokemonFactory {
     string name;
   }
 
+  event eventNewPokemon(
+    uint id, 
+    string name
+  );
+
+
     Pokemon[] private pokemons;
 
     mapping (uint => address) public pokemonToOwner;
@@ -18,6 +24,7 @@ contract PokemonFactory {
         pokemons.push(Pokemon(_id, _name));
         pokemonToOwner[_id] = msg.sender;
         ownerPokemonCount[msg.sender]++;
+        emit eventNewPokemon(_id, _name);
     }
 
     function getAllPokemons() public view returns (Pokemon[] memory) {
