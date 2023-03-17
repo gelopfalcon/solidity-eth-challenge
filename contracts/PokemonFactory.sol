@@ -35,6 +35,11 @@ contract PokemonFactory {
     "El nombre de tu pokemon debe ser mayor a 2 caracteres");
     _;
   }
+  modifier onlyOwner(uint _id) {
+    require(msg.sender == pokemonToOwner[_id], 
+    "este pokemon no es tuyo");
+    _;
+  }
 
     Pokemon[] private pokemons;
 
@@ -56,7 +61,7 @@ contract PokemonFactory {
         emit eventNewPokemon(_id, _name);
     }
 
-    function pokemonEvolution (uint _pokemonId, uint _habilityIndex, string memory _name, string memory _description) public {
+    function pokemonEvolution (uint _pokemonId, uint _habilityIndex, string memory _name, string memory _description) public  onlyOwner(_pokemonId){
         pokemonHabilities[_pokemonId][_habilityIndex] = Habilities(_name, _description);
 
     }
