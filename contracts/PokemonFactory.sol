@@ -7,6 +7,8 @@ contract PokemonFactory {
   struct Pokemon {
     uint id;
     string name;
+    Tipos [] Type;
+    Tipos [] Weaknesses;
   }
 
   struct Habilities {
@@ -34,11 +36,13 @@ contract PokemonFactory {
     Pokemon[] private pokemons;
     Habilities[] private habilities;
 
+    enum Tipos {fire, water, grass, electric, psychic, ghost, dragon, normal, fighting, flying, poison, ground, rock, bug, steel, fairy, ice, dark}
+
     mapping (uint => address) public pokemonToOwner;
     mapping (address => uint) ownerPokemonCount;
 
-     function createPokemon (string memory _name, uint _id) public onlyId(_id) onlyName(_name) {
-        pokemons.push(Pokemon(_id, _name));
+     function createPokemon (string memory _name, uint _id, Tipos[] memory _Type, Tipos[] memory _Weaknesses) public onlyId(_id) onlyName(_name) {
+        pokemons.push(Pokemon(_id, _name, _Type, _Weaknesses));
         pokemonToOwner[_id] = msg.sender;
         ownerPokemonCount[msg.sender]++;
         emit eventNewPokemon(_id, _name);
