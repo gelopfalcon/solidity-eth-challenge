@@ -1,0 +1,40 @@
+{
+  "_format": "hh-sol-cache-2",
+  "files": {
+    "J:\\Curso\\blockchain\\solidity-eth-challenge\\contracts\\PokemonFactory.sol": {
+      "lastModificationDate": 1679067774333,
+      "contentHash": "2c5707b16b1e2ac7587dfd4f6d34b261",
+      "sourceName": "contracts/PokemonFactory.sol",
+      "solcConfig": {
+        "version": "0.8.18",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">=0.7.0 <0.9.0"
+      ],
+      "artifacts": [
+        "PokemonFactory"
+      ]
+    }
+  }
+}
