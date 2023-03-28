@@ -1,0 +1,74 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+h1 {
+  @apply text-3xl font-semibold text-white;
+}
+h2 {
+  @apply text-[1.4rem] font-semibold text-white;
+}
+h3 {
+  @apply text-lg font-semibold text-white;
+}
+p {
+  @apply text-sm;
+}
+
+html {
+  user-select: none; /* supported by Chrome and Opera */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+}
+
+.image {
+  -moz-user-select: none; /* These user-select properties are inheritable, used to prevent text selection */
+  -webkit-user-select: none;
+  -ms-user-select: none; /* From IE10 only */
+  user-select: none; /* Not valid CSS yet, as of July 2012 */
+  -webkit-user-drag: none; /* Prevents dragging of images/divs etc */
+  user-drag: none;
+}
+
+.bg-gradient {
+  background: radial-gradient(circle 610px at 20% 20%, rgba(5, 8, 114, 1) 0%, transparent 100%),
+    radial-gradient(circle 610px at 80% 50%, rgba(5, 8, 114, 1) 0%, transparent 100%),
+    radial-gradient(circle 610px at 20% 75%, rgba(5, 8, 114, 1) 0%, transparent 100%),
+    radial-gradient(circle 610px at 80% 100%, rgba(5, 8, 114, 1) 0%, rgba(7, 3, 53, 1) 100%);
+}
+
+.btn {
+  @apply bg-green-500 rounded-lg py-2 px-6  font-semibold;
+  @apply flex items-center justify-center;
+  @apply hover:bg-green-600 transition duration-100;
+  @apply disabled:bg-green-300;
+}
+
+.gridContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 10px;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+input {
+  outline: none;
+}
+
+.emoji-color {
+  text-shadow: 0 0 0 orange;
+  color: transparent;
+}
