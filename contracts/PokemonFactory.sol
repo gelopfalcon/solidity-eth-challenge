@@ -3,7 +3,28 @@
 pragma solidity >=0.7.0 <0.9.0;
 
 contract PokemonFactory {
-    event eventNewPokemon(string name, uint id);
+    event eventNewPokemon(Pokemon pokemon);
+
+    enum Type {
+        Normal,
+        Fire,
+        Water,
+        Grass,
+        Electric,
+        Ice,
+        Fighting,
+        Poison,
+        Ground,
+        Flying,
+        Psychic,
+        Bug,
+        Rock,
+        Ghost,
+        Dragon,
+        Dark,
+        Steel,
+        Fairy
+    }
 
     struct Ability {
         string name;
@@ -13,6 +34,9 @@ contract PokemonFactory {
     struct Pokemon {
         uint id;
         string name;
+        Ability[] abilities;
+        Type[] types;
+        Type[] weaknesses;
     }
 
     Pokemon[] private pokemons;
@@ -20,13 +44,39 @@ contract PokemonFactory {
     mapping(uint => address) public pokemonToOwner;
     mapping(address => uint) ownerPokemonCount;
 
-    function createPokemon(string memory _name, uint _id) public {
+    function createPokemon(
+        string memory _name,
+        uint _id,
+        Ability[] memory _abilities,
+        Type[] memory _types,
+        Type[] memory _weaknesses
+    ) public {
         require(_id > 0, "Id must be greater than 0");
         require(bytes(_name).length > 2, "Name must be greater than 2");
-        pokemons.push(Pokemon(_id, _name));
+
+        pokemons.push();
+
+        uint lastIndex = pokemons.length - 1;
+
+        pokemons[lastIndex].name = _name;
+        pokemons[lastIndex].id = _id;
+
+        for (uint i = 0; i < _abilities.length; i++) {
+            pokemons[lastIndex].abilities.push(_abilities[i]);
+        }
+
+        for (uint i = 0; i < _types.length; i++) {
+            pokemons[lastIndex].types.push(_types[i]);
+        }
+
+        for (uint i = 0; i < _weaknesses.length; i++) {
+            pokemons[lastIndex].weaknesses.push(_weaknesses[i]);
+        }
+
         pokemonToOwner[_id] = msg.sender;
         ownerPokemonCount[msg.sender]++;
-        emit eventNewPokemon(_name, _id);
+
+        emit eventNewPokemon(pokemons[pokemons.length - 1]);
     }
 
     function getAllPokemons() public view returns (Pokemon[] memory) {
