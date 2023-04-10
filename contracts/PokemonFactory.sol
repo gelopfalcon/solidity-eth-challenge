@@ -12,7 +12,7 @@ contract PokemonFactory {
     /*
      * Reto #3
      */
-    struct Hability {
+    struct Ability {
       string name;
       string description;
     }
@@ -34,7 +34,7 @@ contract PokemonFactory {
     /*
      * Reto #3
      */
-    Hability[] private habilities;
+    Ability[] private habilities;
 
     /*
      * Reto #4
@@ -54,8 +54,8 @@ contract PokemonFactory {
     /*
      * Reto #3
      */
-    mapping (uint => address) public pokemonToHability;
-    mapping (address => uint) pokemonHabilityCount;
+    mapping (uint => address) public pokemonToAbility;
+    mapping (address => uint) pokemonAbilityCount;
 
 
     /*
@@ -80,7 +80,7 @@ contract PokemonFactory {
         emit eventNewPokemon(pokemons[pokemons.length - 1]);
     }
 
-    function createHability(string memory _name, string memory _description, uint _id) public {
+    function createAbility(string memory _name, string memory _description, uint _id) public {
         /*
          * Reto #3
          */ 
@@ -88,9 +88,9 @@ contract PokemonFactory {
         require(keccak256(abi.encodePacked(_name)).length > 2, "_description must be different than '' and greater than 2 characters.");
         _description = deleteAllSpaces(_description);
         require(keccak256(abi.encodePacked(_description)).length > 2, "_description must be different than '' and greater than 2 characters.");
-        habilities.push(Hability(_name, _description));
-        pokemonToHability[_id] = msg.sender;
-        ownerPokemonCount[msg.sender]++;
+        habilities.push(Ability(_name, _description));
+        pokemonToAbility[_id] = msg.sender;
+        pokemonAbilityCount[msg.sender]++;
     }
 
 
